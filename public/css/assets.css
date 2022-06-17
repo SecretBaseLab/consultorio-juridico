@@ -20,9 +20,9 @@
 
 }
 
-h1{
-  width: 100vw;
-  height: 100vh;
-  background-color: #0078d7;
-  color: #ffffff; 
+.navbar-nav{
+  flex-direction: row;
+}
+.navbar-nav .nav-link{
+  padding-right: 10px;
 }
