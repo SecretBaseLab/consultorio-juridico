@@ -1,0 +1,28 @@
+:root{
+  /* home */
+
+  /* colores */
+  --gradiente_home_top: rgba(55,59,68,.4);
+  --background_home: rgba(67, 135, 244, 0.6);
+  --card_glass_color: rgba(255, 255, 255, 0.3);
+  --card_glass_color_dark: rgba(0, 0, 0, 0.1);
+  --sidebar_background: rgba(230, 230, 230, 0.3);
+  --sidebar_selected_item: #0078d7;
+  --sidebar_item_hover: rgba(0, 0, 0, 0.1);
+  --sidebar_selected_item_text: #ffffff;
+  
+
+  /* assets */
+  --background_img_home: url("../public/uploads/home-background.jpg");
+  --blur_cristal_mode: 30px;
+  /* END home */
+
+
+}
+
+h1{
+  width: 100vw;
+  height: 100vh;
+  background-color: #0078d7;
+  color: #ffffff; 
+}

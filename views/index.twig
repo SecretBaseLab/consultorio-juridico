@@ -1,1 +1,10 @@
 {% extends "main.twig" %}
+{% block title %}
+Inicio |
+{{ parent() }}
+{% endblock %}
+
+{# bloque del contenido de cada vista #}
+{% block contenido %}
+  <h1>Mi proyecto base MVC con librerias</h1>
+{% endblock contenido %}
