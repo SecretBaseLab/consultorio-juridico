@@ -1,0 +1,134 @@
+{% extends "main.twig" %}
+{% block title %}
+Signup |
+{{ parent() }}
+{% endblock %}
+{% block navbar %}{% endblock %}    {# con esto anulo en esta vista a navbar #}
+
+{# bloque de estilos #}
+{% block styles %}
+<style>
+  body{
+    background-image: var(--background_img_home);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  .vista{
+    width: 100%;
+    margin: 20px 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .signup_container{
+    color: var(--text_glass_color_dark);
+    display: inherit;
+    flex-direction: column;
+    align-items: center;
+
+    width: 50vw;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--card_glass_color_dark);
+    -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
+    backdrop-filter: blur(var(--blur_cristal_mode));
+  }
+
+  form{
+    display: inherit;
+    flex-direction: column;
+
+    width: 90%;
+  }
+  input{
+    margin-top: 10px;
+  }
+  input{
+    border: none;
+    border-bottom: 1px solid var(--text_glass_color_dark);
+    outline: none;
+    background-color: transparent;
+    color: var(--text_glass_color_dark);
+    text-align: left;
+    padding: 5px 10px;
+  }
+  ::-webkit-input-placeholder {
+      /* Edge */
+      color: var(--text_glass_color_dark);
+  }
+  :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: var(--text_glass_color_dark);
+  }
+  ::placeholder {
+      color: var(--text_glass_color_dark);
+  }
+  /* hace la animacion en el input */
+  [placeholder]:focus::-webkit-input-placeholder {
+    transition: text-indent 0.2s 0.2s ease;
+    text-indent: -100%;
+    opacity: 1;
+  }
+
+  hr{
+    color: var(--text_glass_color_dark);
+    width: 100%;
+  }
+  input[type=submit]{
+    color:white
+  }
+
+  @media only screen and (max-width: 768px) {
+    .signup_container{
+      width: 90vw;
+    }
+  }
+</style>
+{% endblock styles %}
+
+{# bloque del contenido de cada vista #}
+{% block contenido %}
+<div class=" vista">
+  <div class="signup_container">
+    <h2 class="text-center">Bienvenido</h2>
+    <hr>
+    <form action="/signup" id="form_singup" method="POST">
+      <input type="text" class="" name="cedula" id="cedula" placeholder="Tu número de cédula"
+          required pattern="[0-9]{10}">
+      <select class="form-select my-2" name="rol" id="rol" required>
+          <option value="" selected disabled>Seleccionar Rol</option>
+          <option value="Admin">Administrador</option>
+          <option value="usuario">Usuario comun</option>
+      </select>
+      <div class="row">
+          <div class="col-sm-6">
+              <input type="text" name="nombres" id="nombres" class="" placeholder="Tus nombres"
+                  required pattern="[A-Za-z]{3,}">
+          </div>
+          <div class="col-sm-6">
+              <input type="text" name="apellidos" id="apellidos" class=""
+                  placeholder="Tus apellidos" required pattern="[A-Za-z]{3,}">
+          </div>
+      </div>
+      <input type="tel" name="telefono" id="telefono" class="" pattern="[0-9]{10}"
+          placeholder="Tu número de telefono" required>
+      <input type="email" name="email" id="email" placeholder="Correo: email@example.com" class=""
+          required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+      <input type="text" name="username"  class="" placeholder="Tu nombre de usuario"
+          required pattern="[A-Za-z0-9]{3,}" title="Solo letras y números" data-bs-toggle="tooltip">
+      <input type="password" name="password" class="" placeholder="Tu contraseña"
+          required pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" data-bs-toggle="tooltip" title="Must contain at least one  number and one uppercase and lowercase letter, and at least 8 or more characters">
+
+      <label for="passMaster" class="pt-3">
+          <h5>Contraseña de registro</h5>
+      </label>
+      <span> <i class="far fa-question-circle p-2" data-bs-toggle="tooltip"
+              title="Solicita esta contraseña al administrador del sistema"></i></span>
+      <input type="password" name="passMaster" id="passMaster" class="pt-0"
+          placeholder="*****************" required>
+      <input type="submit" value="Registrar Usuario" class="btn btn-danger  my-2">
+    </form>
+  </div>
+</div>
+{% endblock contenido %}

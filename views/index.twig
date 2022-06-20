@@ -1,6 +1,6 @@
 {% extends "main.twig" %}
 {% block title %}
-Inicio |
+Login |
 {{ parent() }}
 {% endblock %}
 {% block navbar %}{% endblock %}    {# con esto anulo en esta vista a navbar #}
@@ -94,7 +94,7 @@ Inicio |
     }
   }
 </style>
-{% endblock %}
+{% endblock styles %}
 
 {# bloque del contenido de cada vista #}
 {% block contenido %}
@@ -105,10 +105,10 @@ Inicio |
     <form action="/login" method="post">
       <input type="email" name="user_name" id="user_name" placeholder="Username">
       <input type="password" name="password" id="password" placeholder="Password" class="btn">
-      <input type="submit" value="LOGIN" class="btn btn-danger form-control">
+      <input type="submit" value="LOGIN" class="btn btn-danger ">
     </form>
     <small><a href="">Forgot password?</a></small>
-    <small><a href="">Signup</a></small>
+    <small><a href="/signup">Signup</a></small>
   </div>
 </div>
 {% endblock contenido %}

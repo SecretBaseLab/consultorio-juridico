@@ -19,7 +19,7 @@ class loginController extends CoreController{
       if ( isset($_SESSION['userId']) )
           return new RedirectResponse('/dashboard');
       else
-          return $this->renderHTML('login.twig');
+          return $this->renderHTML('signup.twig');
   }
     
     public function loginAction($request){
