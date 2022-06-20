@@ -3,10 +3,112 @@
 Inicio |
 {{ parent() }}
 {% endblock %}
+{% block navbar %}{% endblock %}    {# con esto anulo en esta vista a navbar #}
+
+{# bloque de estilos #}
+{% block styles %}
+<style>
+  body{
+    background-image: var(--background_img_home);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+  }
+  .vista{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+  }
+  
+  .login_container{
+    color: var(--text_glass_color_dark);
+    display: inherit;
+    flex-direction: column;
+    align-items: center;
+
+    width: 300px;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--card_glass_color_dark);
+    -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
+    backdrop-filter: blur(var(--blur_cristal_mode));
+  }
+
+  form{
+    display: inherit;
+    flex-direction: column;
+
+    width: 90%;
+  }
+  input{
+    margin-top: 10px;
+  }
+  input[type=email], input[type=password]{
+    border: none;
+    border-bottom: 1px solid var(--text_glass_color_dark);
+    outline: none;
+    background-color: transparent;
+    color: var(--text_glass_color_dark);
+    text-align: left;
+    padding: 5px 10px;
+  }
+  ::-webkit-input-placeholder {
+      /* Edge */
+      color: var(--text_glass_color_dark);
+  }
+  :-ms-input-placeholder {
+      /* Internet Explorer 10-11 */
+      color: var(--text_glass_color_dark);
+  }
+  ::placeholder {
+      color: var(--text_glass_color_dark);
+  }
+  /* hace la animacion en el input */
+  [placeholder]:focus::-webkit-input-placeholder {
+    transition: text-indent 0.2s 0.2s ease;
+    text-indent: -100%;
+    opacity: 1;
+  }
+
+  small{
+    padding: 20px 0 0 0;
+  }
+  small a{
+    color: var(--text_glass_color_dark);
+    text-decoration: none;
+  }
+  hr{
+    color: var(--text_glass_color_dark);
+    width: 100%;
+  }
+  input[type=submit]{
+    color:white
+  }
+
+  @media only screen and (max-width: 600px) {
+    .login_container{
+      width: 90vw;
+    }
+  }
+</style>
+{% endblock %}
 
 {# bloque del contenido de cada vista #}
 {% block contenido %}
-<div class="container">
-  <h1>Mi proyecto base MVC con librerias</h1>
+<div class=" vista">
+  <div class="login_container">
+    <h2 class="text-center">Bienvenido</h2>
+    <hr>
+    <form action="/login" method="post">
+      <input type="email" name="user_name" id="user_name" placeholder="Username">
+      <input type="password" name="password" id="password" placeholder="Password" class="btn">
+      <input type="submit" value="LOGIN" class="btn btn-danger form-control">
+    </form>
+    <small><a href="">Forgot password?</a></small>
+    <small><a href="">Signup</a></small>
+  </div>
 </div>
 {% endblock contenido %}

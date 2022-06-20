@@ -53,21 +53,24 @@ $map->get('index', $dir_raiz, [
     "controller" => "App\Controllers\IndexController",
     "action" => "indexAction"
 ]);
+$map->post('Login', $dir_raiz . 'login', [
+    "controller" => "App\Controllers\loginController",
+    "action" => "loginAction"
+]);
+$map->get('logout', $dir_raiz . 'logout', [
+    "controller" => "App\Controllers\loginController",
+    "action" => "getLogoutAction",
+    "auth" => true
+]);
+$map->get('getSignUp', $dir_raiz . 'signup', [
+    "controller" => "App\Controllers\loginController",
+    "action" => "getSignUpAction"
+]);
 
-// ejemplo de rutas
-// $map->post('Login', $dir_raiz . 'login', [
-//     "controller" => "App\Controllers\loginController",
-//     "action" => "loginAction"
-// ]);
-// $map->get('logout', $dir_raiz . 'logout', [
-//     "controller" => "App\Controllers\loginController",
-//     "action" => "getLogoutAction",
-//     "auth" => true
-// ]);
-// $map->post('postSignUp', $dir_raiz . 'signup', [
-//     "controller" => "App\Controllers\loginController",
-//     "action" => "postSignUpAction"
-// ]);
+$map->post('postSignUp', $dir_raiz . 'signup', [
+    "controller" => "App\Controllers\loginController",
+    "action" => "postSignUpAction"
+]);
 
 
 $matcher = $routerContainer->getMatcher();

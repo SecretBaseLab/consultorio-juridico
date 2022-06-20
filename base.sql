@@ -151,7 +151,7 @@ create table unidad_judicial(
 
 create table juicio(
     numero_juicio varchar (100) not null PRIMARY KEY,
-    created_at DATETIME comment "fecha_inicio_jucio",
+    created_at DATETIME COMMENT "fecha_inicio_jucio",
     updated_at DATETIME,
     accionante varchar(100) not null,
     accionado varchar(100) not null,
@@ -169,8 +169,8 @@ create table juicio(
     );
 
     create table juicio_juez(
-        created_at DATETIME comment "fecha en q este juex empieza el juicio",
-        updated_at DATETIME comment "fecha en q este juez termina o se retira del juicio",
+        created_at DATETIME COMMENT "fecha en q este juex empieza el juicio",
+        updated_at DATETIME COMMENT "fecha en q este juez termina o se retira del juicio",
         numero_juicio varchar(100) not null,
         FOREIGN KEY (numero_juicio) REFERENCES juicio(numero_juicio),
         id_juez int UNSIGNED not null,
@@ -180,7 +180,7 @@ create table juicio(
 
     create table observaciones_juicio(
         id_observacion int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        created_at DATETIME comment "fecha de la observacion del juicio",
+        created_at DATETIME COMMENT "fecha de la observacion del juicio",
         updated_at DATETIME,
         descripcion text not null,
         numero_juicio varchar(100) not null,
@@ -190,7 +190,7 @@ create table juicio(
 create table movimiento_juicio(
     id_movimiento int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     detalle text not null,
-    created_at DATETIME comment "fecha del movimiento del juicio",
+    created_at DATETIME COMMENT "fecha del movimiento del juicio",
     updated_at DATETIME,
     numero_juicio varchar(100) not null,
     FOREIGN KEY (numero_juicio) REFERENCES juicio(numero_juicio)
@@ -210,7 +210,7 @@ create table movimiento_juicio(
 create table audiencia(
     id_audiencia int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
     estado varchar(50) default "Pendiente" check(estado="Pendiente" or estado="Realizado" or estado="Postergado"),
-    created_at DATETIME comment "fecha asignada del juicio",
+    created_at DATETIME COMMENT "fecha asignada del juicio",
     updated_at DATETIME,
     observaciones_audiencia text,
     tipo varchar (10) not null check(tipo="Presencial" or tipo="Virtual"),
@@ -253,4 +253,4 @@ CREATE TABLE pass_master(
     password text not null,
     created_at DATETIME,
     updated_at DATETIME
-)
+);
