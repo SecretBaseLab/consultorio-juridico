@@ -249,7 +249,8 @@ create table usuarios(
     updated_at DATETIME
 );
 
-CREATE TABLE pass_master(  
+CREATE TABLE pass_master(
+    id int UNSIGNED AUTO_INCREMENT PRIMARY KEY
     password text not null,
     created_at DATETIME,
     updated_at DATETIME

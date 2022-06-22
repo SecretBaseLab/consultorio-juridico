@@ -66,10 +66,17 @@ $map->get('getSignUp', $dir_raiz . 'signup', [
     "controller" => "App\Controllers\loginController",
     "action" => "getSignUpAction"
 ]);
-
 $map->post('postSignUp', $dir_raiz . 'signup', [
     "controller" => "App\Controllers\loginController",
     "action" => "postSignUpAction"
+]);
+$map->get('getFormPassmaster', $dir_raiz . 'password-master', [
+    "controller" => "App\Controllers\passMasterController",
+    "action" => "getFormPassMasterAction"
+]);
+$map->post('postPassmaster', $dir_raiz . 'password-master', [
+    "controller" => "App\Controllers\passMasterController",
+    "action" => "postPassMasterAction"
 ]);
 
 

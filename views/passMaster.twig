@@ -1,0 +1,17 @@
+{% extends "main.twig" %}
+{% block title %}
+Cambiar contraseña master del sistema |
+{{ parent() }}
+{% endblock title %}
+
+
+{% block contenido %}
+<h1>Modifica la contraseña master</h1>
+<h2><a href="/">Ir a Inicio</a></h2>
+<form action="/password-master" method="POST">
+    <input type="password" name="passMaster" id="passMaster" required placeholder="Ingresa la xontraseña">
+    <input type="submit" value="Guardar">
+</form>
+
+<h5>{{responseMessage}}</h5>
+{% endblock contenido %}
