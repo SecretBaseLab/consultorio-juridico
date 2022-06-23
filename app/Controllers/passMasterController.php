@@ -7,10 +7,12 @@ use Respect\Validation\Validator as v;
 
 class passMasterController extends CoreController{
     public function getFormPassMasterAction(){
-        if ( isset($_SESSION['user_name']) && $_SESSION['rol']=='Admin' )
-            return $this->renderHTML('passMaster.twig');
-        else
-            return new RedirectResponse('/dashboard');
+        return $this->renderHTML('passMaster.twig');
+
+        // if ( isset($_SESSION['user_name']) && $_SESSION['rol']=='Admin' )
+        //     return $this->renderHTML('passMaster.twig');
+        // else
+        //     return new RedirectResponse('/dashboard');
     }
 
     public function postPassMasterAction($request){

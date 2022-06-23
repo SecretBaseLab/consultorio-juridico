@@ -17,11 +17,12 @@ class loginController extends CoreController{
 
     public function getSignUpAction(){
         //?si esta logeado y es admin puede acceder
-      if ( isset($_SESSION['user_name']) && $_SESSION['rol']=='Admin' )
         return $this->renderHTML('signup.twig');
-      else
-        return new RedirectResponse('/dashboard');
-  }
+    //   if ( isset($_SESSION['user_name']) && $_SESSION['rol']=='Admin' )
+    //     return $this->renderHTML('signup.twig');
+    //   else
+    //     return new RedirectResponse('/dashboard');
+    }
     
     public function postLoginAction($request){
         $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
