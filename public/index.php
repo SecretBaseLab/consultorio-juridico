@@ -62,15 +62,18 @@ $map->get('logout', $dir_raiz . 'logout', [
     "action" => "getLogoutAction",
     "auth" => true
 ]);
+
 $map->get('getSignUp', $dir_raiz . 'signup', [
     "controller" => "App\Controllers\loginController",
-    "action" => "getSignUpAction"
+    "action" => "getSignUpAction",
+    "auth" => true
 ]);
 $map->post('postSignUp', $dir_raiz . 'signup', [
     "controller" => "App\Controllers\loginController",
     "action" => "postSignUpAction",
     "auth" => true
 ]);
+
 $map->get('getFormPassmaster', $dir_raiz . 'password-master', [
     "controller" => "App\Controllers\passMasterController",
     "action" => "getFormPassMasterAction",
@@ -81,9 +84,16 @@ $map->post('postPassmaster', $dir_raiz . 'password-master', [
     "action" => "postPassMasterAction",
     "auth" => true
 ]);
+
 $map->get('getDashboard', $dir_raiz . 'dashboard', [
     "controller" => "App\Controllers\dashboardController",
     "action" => "getDashboardAction",
+    "auth" => true
+]);
+
+$map->get('getFormNuevoCliente', $dir_raiz . 'nuevo-cliente', [
+    "controller" => "App\Controllers\clienteController",
+    "action" => "getFormNuevoCliente",
     "auth" => true
 ]);
 

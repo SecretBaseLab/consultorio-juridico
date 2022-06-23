@@ -1,0 +1,72 @@
+{% extends "main.twig" %}
+{% block title %}
+Nuevo Cliente |
+{{ parent() }}
+{% endblock %}
+{# bloque de estilos #}
+{% block styles %}
+
+{% endblock styles %}
+
+{# bloque del contenido de cada vista #}
+{% block contenido %}
+<section class="row py-2">
+    <h1>Clientes</h1>
+    <hr>
+    <h2>Buscar Cliente</h2>
+    <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+        <button class="btn btn-sm btn-outline-success" type="submit">Search</button>
+    </form>
+</section>
+
+<section class="row">
+    <div class="col-md-6">
+        <h2>Nuevo Cliente</h2>
+        <div>
+            <form action="/clientes/add" method="POST">
+                <input type="text" name="Cedula" id="" class="form-control" placeholder="Cédula">
+                <input type="text" name="Nombres" id="" class="form-control" placeholder="Nombres">
+                <input type="text" name="Apellidos" id="" class="form-control" placeholder="Apellidos">
+                <input type="text" name="Direccion" id="" class="form-control" placeholder="Direccion">
+                <input type="text" name="Telefonos" id="" class="form-control" placeholder="Telefonos">
+                <input type="text" name="Correos" id="" class="form-control" placeholder="Correos" multiple>
+                <textarea name="otros" id="" rows="3" class="form-control" placeholder="Mas detalles del cliente"></textarea>
+                <input type="submit" value="Guardar" class="btn btn-info form-control">
+            </form>
+        </div>
+        <div class="alert alert-primary" role="alert">
+            {{ responseMessage }}
+        </div>
+    </div>
+    <div class="col-md-6">
+        <h2>Mi lista de clientes</h2>
+        <div class="table-responsive">
+            <table class="table table-sm table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Cédula</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Dirección</th>
+                        <th>Expediente</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for row, cliente in clientes %}
+                    <tr>
+                        <td scope="row">{{row + 1}}</td>
+                        <td>{{cliente.cedula}}</td>
+                        <td>{{cliente.nombres}}</td>
+                        <td>{{cliente.apellidos}}</td>
+                        <td>{{cliente.direccion}}</td>
+                        <td><a href="/expediente/{{cliente.cedula}}"><i class="bi bi-plus-circle"></i></a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+{% endblock contenido %}
