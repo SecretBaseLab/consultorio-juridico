@@ -8,26 +8,27 @@ use Laminas\Diactoros\Response\RedirectResponse;
 
 
 class loginController extends CoreController{
-    public function getFormLoginAction(){
-        if ( isset($_SESSION['userId']) )
+    public function geFormLoginAction(){
+        if ( isset($_SESSION['user_name']) )
             return new RedirectResponse('/dashboard');
         else
-            return $this->renderHTML('login.twig');
+            return $this->renderHTML('index.twig');
     }
 
     public function getSignUpAction(){
-      if ( isset($_SESSION['userId']) )
-          return new RedirectResponse('/dashboard');
+        //?si esta logeado y es admin puede acceder
+      if ( isset($_SESSION['user_name']) && $_SESSION['rol']=='Admin' )
+        return $this->renderHTML('signup.twig');
       else
-          return $this->renderHTML('signup.twig');
+        return new RedirectResponse('/dashboard');
   }
     
-    public function loginAction($request){
+    public function postLoginAction($request){
         $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
 
         if ($request->getMethod() == "POST") {
             $postData = $request->getParsedBody();
-            $usuariosValidator = v::key('username', v::stringType()->noWhitespace()->notEmpty())
+            $usuariosValidator = v::key('user_name', v::stringType()->noWhitespace()->notEmpty())
             ->key('password', v::stringType()->notEmpty()->noWhitespace());
 
             try {
@@ -35,11 +36,12 @@ class loginController extends CoreController{
 
                 $usuario = new usuarios();
                 $existeusuario = $usuario
-                                ->where("user_name", $postData['username'])
+                                ->where("user_name", $postData['user_name'])
                                 ->first();
                 if( $existeusuario )
                     if ( password_verify( $postData['password'], $existeusuario->password) ){
-                        $_SESSION['userId'] = $postData['username'];
+                        $_SESSION['user_name'] = $postData['user_name'];
+                        $_SESSION['rol'] = $existeusuario->rol;
                         return new RedirectResponse('/dashboard');
                     }else{
                         $responseMessage = 'Credenciales incorrectas o el usuario no existe';
@@ -53,9 +55,10 @@ class loginController extends CoreController{
             }
         }
 
+        //mensaje de retorno a la misma vista con un alert
         $assets = new assetsControler();
-        return $this->renderHTML('login.twig', [
-            'responseMessage' => $assets->alert($responseMessage, 'warning', '<i class="fas fa-exclamation-triangle"></i>')
+        return $this->renderHTML('index.twig', [
+            'responseMessage' => $assets->alert($responseMessage, 'warning')
         ]);
     }
 
@@ -71,7 +74,7 @@ class loginController extends CoreController{
             ->key('apellidos', v::stringType()->notEmpty()->noWhitespace())
             ->key('telefono', v::stringType()->notEmpty()->noWhitespace()->phone())
             ->key('email', v::stringType()->notEmpty()->noWhitespace()->email())
-            ->key('username', v::stringType()->notEmpty()->noWhitespace())
+            ->key('user_name', v::stringType()->notEmpty()->noWhitespace())
             ->key('password', v::stringType()->notEmpty()->noWhitespace())
             ->key('passMaster', v::stringType()->notEmpty()->noWhitespace());
             
@@ -100,16 +103,16 @@ class loginController extends CoreController{
                         $usuarios->apellidos = $postData['apellidos'];
                         $usuarios->telefono = $postData['telefono'];
                         $usuarios->correo = $postData['email'];
-                        $usuarios->user_name = $postData['username'];
+                        $usuarios->user_name = $postData['user_name'];
                         $postData['password'] = password_hash($postData['password'], PASSWORD_DEFAULT );
                         $usuarios->password = $postData['password'];
                         $usuarios->save();
                         $responseMessage = 'Se ha guardado con éxito';
-                        $_SESSION['userId'] = $postData['username'];
+                        $_SESSION['user_name'] = $postData['user_name'];
+                        $_SESSION['rol'] = $postData['rol'];
                         return new RedirectResponse('/dashboard');
                     }
                 }
-                            
             } catch (\Exception $e) {
                 $responseMessage = 'Ha ocurrido un error! ex001';
                 // $responseMessage = $e->getMessage();
@@ -117,14 +120,14 @@ class loginController extends CoreController{
             // return $this->jsonReturn($existeusuario);
         }
         $assets = new assetsControler();
-        return $this->renderHTML('login.twig', [
-            'responseMessage' => $assets->alert($responseMessage, 'warning', '<i class="fas fa-exclamation-triangle"></i>'),
-            'pills_signup' => 'pills_signup_tab.click();'
+        return $this->renderHTML('signup.twig', [
+            'responseMessage' => $assets->alert($responseMessage, 'warning')
         ]);
     }
 
     public function getLogoutAction(){
-        unset($_SESSION['userId']);
+        unset($_SESSION['user_name']);
+        unset($_SESSION['rol']);
         session_destroy();
         return new RedirectResponse('/');
     }

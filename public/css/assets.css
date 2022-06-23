@@ -23,7 +23,7 @@
   /* END home */
 
   --background_app: url("/public/uploads/background-app.jpg");
-
+  --altura_navbar: 55px;
 }
 
 *{
@@ -46,4 +46,11 @@ body{
 }
 .navbar-nav .nav-link{
   padding-right: 10px;
+}
+
+.alert{
+  z-index: 1;
+  position: fixed;
+  bottom: 5px;
+  right: 5px;
 }

@@ -2,11 +2,15 @@
 namespace App\Controllers;
 
 use App\Models\passMaster;
+use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
 
 class passMasterController extends CoreController{
     public function getFormPassMasterAction(){
-        return $this->renderHTML('passMaster.twig');
+        if ( isset($_SESSION['user_name']) && $_SESSION['rol']=='Admin' )
+            return $this->renderHTML('passMaster.twig');
+        else
+            return new RedirectResponse('/dashboard');
     }
 
     public function postPassMasterAction($request){
@@ -32,8 +36,9 @@ class passMasterController extends CoreController{
             }
         }
 
+        $assets = new assetsControler();
         return $this->renderHTML('passMaster.twig', [
-            'responseMessage' => $responseMessage
+            'responseMessage' => $assets->alert($responseMessage)
         ]);
     }
 }

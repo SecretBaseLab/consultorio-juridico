@@ -13,7 +13,7 @@ Login |
   }
   .vista{
     width: 100vw;
-    height: 100vh;
+    height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -99,13 +99,20 @@ Login |
   <div class="login_container">
     <h2 class="text-center">Bienvenido</h2>
     <hr>
-    <form action="/login" method="post">
-      <input type="email" name="user_name" id="user_name" placeholder="Username">
-      <input type="password" name="password" id="password" placeholder="Password" class="btn">
+    <form action="/" method="post">
+      <input type="text" name="user_name" placeholder="Username">
+      <input type="password" name="password" placeholder="Password" class="btn">
       <input type="submit" value="LOGIN" class="btn btn-danger ">
     </form>
     <small><a href="">Forgot password?</a></small>
     <small><a href="/signup">Signup</a></small>
   </div>
 </div>
+{% autoescape "html" %}
+  {{ responseMessage|raw }}
+{% endautoescape %}
 {% endblock contenido %}
+
+{% block scripts %}
+{{ closeAlert|raw }}
+{% endblock scripts %}

@@ -18,6 +18,13 @@ Cambiar contraseña master del sistema |
     .passMasterContainer{
         display: block;
         text-align: center;
+
+        width: 500px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: var(--card_glass_color_dark);
+        -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
+        backdrop-filter: blur(var(--blur_cristal_mode));
     }
     a{
         text-decoration: none;
@@ -30,13 +37,19 @@ Cambiar contraseña master del sistema |
 <div class="container vista">
     <div class="passMasterContainer">
         <h1>Modifica la contraseña master</h1>
-        <h2><a href="/Dashboard">Ir a Dashboard</a></h2>
+        <h2><a href="/dashboard">Ir a Dashboard</a></h2>
         <form action="/password-master" method="POST">
-            <input type="password" name="passMaster" id="passMaster" required placeholder="Ingresa la xontraseña">
-            <input type="submit" value="Guardar">
+            <input type="password" name="passMaster" id="passMaster" required placeholder="Ingresa la contraseña" class="form-control">
+            <input type="submit" value="Guardar" class="btn btn-primary form-control">
         </form>
-
-        <h5>{{responseMessage}}</h5>
     </div>
 </div>
+{% autoescape "html" %}
+  {{ responseMessage|raw }}
+{% endautoescape %}
+
 {% endblock contenido %}
+
+{% block scripts %}
+{{ closeAlert|raw }}
+{% endblock scripts %}

@@ -50,12 +50,12 @@ $map = $routerContainer->getMap();      //? generador del mapa de rutas
 
 //rutas
 $map->get('index', $dir_raiz, [
-    "controller" => "App\Controllers\IndexController",
-    "action" => "indexAction"
-]);
-$map->post('Login', $dir_raiz . 'login', [
     "controller" => "App\Controllers\loginController",
-    "action" => "loginAction"
+    "action" => "geFormLoginAction"
+]);
+$map->post('Login', $dir_raiz, [
+    "controller" => "App\Controllers\loginController",
+    "action" => "postLoginAction"
 ]);
 $map->get('logout', $dir_raiz . 'logout', [
     "controller" => "App\Controllers\loginController",
@@ -68,16 +68,25 @@ $map->get('getSignUp', $dir_raiz . 'signup', [
 ]);
 $map->post('postSignUp', $dir_raiz . 'signup', [
     "controller" => "App\Controllers\loginController",
-    "action" => "postSignUpAction"
+    "action" => "postSignUpAction",
+    "auth" => true
 ]);
 $map->get('getFormPassmaster', $dir_raiz . 'password-master', [
     "controller" => "App\Controllers\passMasterController",
-    "action" => "getFormPassMasterAction"
+    "action" => "getFormPassMasterAction",
+    "auth" => true
 ]);
 $map->post('postPassmaster', $dir_raiz . 'password-master', [
     "controller" => "App\Controllers\passMasterController",
-    "action" => "postPassMasterAction"
+    "action" => "postPassMasterAction",
+    "auth" => true
 ]);
+$map->get('getDashboard', $dir_raiz . 'dashboard', [
+    "controller" => "App\Controllers\dashboardController",
+    "action" => "getDashboardAction",
+    "auth" => true
+]);
+
 
 
 $matcher = $routerContainer->getMatcher();
@@ -116,7 +125,7 @@ if (!$route) {
     $needsAuth = $handlerData['auth'] ?? false;
 
     //autenticacion
-    $sessionUserId = $_SESSION['userId'] ?? null;
+    $sessionUserId = $_SESSION['user_name'] ?? null;
     if ($needsAuth && !$sessionUserId) {    //? niega el acceso si no esta logeado
         // echo 'protected route';
         $response = new RedirectResponse('/');                            
