@@ -48,6 +48,43 @@ body{
   padding-right: 10px;
 }
 
+/* efecto cristal */
+.cristal_background{
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--card_glass_color_dark);
+  -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
+  backdrop-filter: blur(var(--blur_cristal_mode));
+}
+/* efecto trnasparente para los input */
+input{
+  margin-top: 10px;
+  border: none;
+  border-bottom: 1px solid var(--text_glass_color_dark);
+  outline: none;
+  background-color: transparent;
+  color: var(--text_glass_color_dark);
+  /* text-align: left; */
+  padding: 5px 10px;
+}
+::-webkit-input-placeholder {
+  /* Edge */
+  color: var(--text_glass_color_dark);
+}
+:-ms-input-placeholder {
+  /* Internet Explorer 10-11 */
+  color: var(--text_glass_color_dark);
+}
+::placeholder {
+  color: var(--text_glass_color_dark);
+}
+/* hace la animacion en el input */
+[placeholder]:focus::-webkit-input-placeholder {
+transition: text-indent 0.2s 0.2s ease;
+text-indent: -100%;
+opacity: 1;
+}
+
 .alert{
   z-index: 1;
   position: fixed;

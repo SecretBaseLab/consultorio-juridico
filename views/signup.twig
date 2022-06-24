@@ -22,12 +22,7 @@ Signup |
     align-items: center;
 
     width: 55vw;
-    padding: 10px;
     margin: 10px 0;
-    border-radius: 10px;
-    background-color: var(--card_glass_color_dark);
-    -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
-    backdrop-filter: blur(var(--blur_cristal_mode));
   }
 
   form{
@@ -36,36 +31,7 @@ Signup |
 
     width: 90%;
   }
-  input{
-    margin-top: 10px;
-  }
-  input{
-    border: none;
-    border-bottom: 1px solid var(--text_glass_color_dark);
-    outline: none;
-    background-color: transparent;
-    color: var(--text_glass_color_dark);
-    text-align: left;
-    padding: 5px 10px;
-  }
-  ::-webkit-input-placeholder {
-      /* Edge */
-      color: var(--text_glass_color_dark);
-  }
-  :-ms-input-placeholder {
-      /* Internet Explorer 10-11 */
-      color: var(--text_glass_color_dark);
-  }
-  ::placeholder {
-      color: var(--text_glass_color_dark);
-  }
-  /* hace la animacion en el input */
-  [placeholder]:focus::-webkit-input-placeholder {
-    transition: text-indent 0.2s 0.2s ease;
-    text-indent: -100%;
-    opacity: 1;
-  }
-
+  
   hr{
     color: var(--text_glass_color_dark);
     width: 100%;
@@ -82,7 +48,7 @@ Signup |
 {# bloque del contenido de cada vista #}
 {% block contenido %}
 <div class=" vista">
-  <div class="signup_container">
+  <div class="signup_container cristal_background">
     <h2 class="text-center">Bienvenido</h2>
     <hr>
     <form action="/signup" id="form_singup" method="POST">

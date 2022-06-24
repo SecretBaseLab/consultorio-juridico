@@ -12,15 +12,9 @@ Dashboard |
   }
   .dashboard_container{
     color: var(--text_glass_color_dark);
-
   }
   .row{
     width: 100%;
-  }
-  .col-md-3{
-    background-color: var(--card_glass_color_dark);
-    -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
-    backdrop-filter: blur(var(--blur_cristal_mode));
   }
 </style>
 {% endblock styles %}
@@ -30,7 +24,7 @@ Dashboard |
   <div class="dashboard_container">
     <h1>Mi panel</h1>
     <div class="row">
-      <div class="col-md-3">
+      <div class="col-md-3 cristal_background">
         <a href="/nuevo-cliente"><h2>nuevo cliente</h2></a>
       </div>
       <div class="col-md-3">
