@@ -7,19 +7,30 @@ Nuevo Cliente |
 {% block styles %}
 <style>
     .vista{
-        width: 100vw;
+        width: 100%;
         margin-top: var(--altura_navbar);
-      }
-    .clientes_container{
-        color: var(--text_glass_color_dark);
-    }
-    .buscar_cliente, .nuevo_cliente, .listar_clientes{
-        margin: 10px 0;
     }
     .row{
         width: 100%;
+        margin: 0;
+        padding: 0;
     }
-    
+    .clientes_container{
+        color: var(--text_glass_color_dark);
+    }
+    .buscar_cliente,
+    .nuevo_cliente,
+    .listar_clientes{
+        margin: 10px 0;
+    }
+    .nuevoCliente_form,
+    .nombres_container,
+    .apellidos_container,
+    #telefonos_container,
+    #correos_container{
+        display: flex;
+        flex-direction: column;
+    }
 </style>
 {% endblock styles %}
 
@@ -29,7 +40,7 @@ Nuevo Cliente |
     <div class="clientes_container">
         <h1>Clientes</h1>
         <hr>
-        <section class="row py-2 buscar_cliente cristal_background">
+        <section class="row buscar_cliente cristal_background">
             <h2>Buscar Cliente</h2>
             <form class="d-flex">
                 <input class=" me-2" type="search" placeholder="Search" aria-label="Search">
@@ -41,21 +52,37 @@ Nuevo Cliente |
             <div class="col-md-6 nuevo_cliente cristal_background">
                 <h2>Nuevo Cliente</h2>
                 <div>
-                    <form action="/clientes/add" method="POST">
-                        <input type="text" name="Cedula" id="" class="" placeholder="Cédula" required>
-                        <input type="text" name="Nombres" id="" class="" placeholder="Nombres" required>
-                        <input type="text" name="Apellidos" id="" class="" placeholder="Apellidos" required>
-                        <input type="text" name="Direccion" id="" class="" placeholder="Direccion" required>
-                        <input type="email" name="Telefonos" id="" class="" placeholder="Telefonos" multiple>
-                        <input type="text" name="Correos" id="" class="" placeholder="Correos" multiple>
-        
-                        <input type="tel" name="telefono" id="telefono" class="" pattern="[0-9]{10}"
-                  placeholder="Tu número de telefono" required multiple>
-                        <input type="email" name="email" id="email" placeholder="Correo: email@example.com" class=""
-                            required pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" multiple>
+                    <form action="/clientes/add" method="POST" class="nuevoCliente_form">
+                        <input type="text" name="cedula" placeholder="Número de cédula" required pattern="[0-9]{10}">
+
+                        <div class="row">
+                            <div class="col-md-6 nombres_container">
+                                <input type="text" name="nombres" placeholder="Nombres" required pattern="[A-Za-z]{3,}">
+                            </div>
+                            <div class="col-md-6 apellidos_container">
+                                <input type="text" name="apellidos" placeholder="Apellidos" required pattern="[A-Za-z]{3,}">
+                            </div>
+                        </div>
+
+                        <input type="text" name="direccion" placeholder="Direccion" required>
+
+                        <div class="row">
+                            <div class="col-md-6 ">
+                                <div id="telefonos_container">
+                                    <input type="tel" name="telefono[]" pattern="[0-9]{10}" placeholder="Número de telefono" >
+                                </div>
+                                <input type="button" value="Nuevo telefono" class="btn btn-outline-info" id="btnNuevoTelefono">
+                            </div>
+                            <div class="col-md-6 ">
+                                <div id="correos_container">
+                                    <input type="email" name="correo[]" placeholder="Correo: email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
+                                </div>
+                                <input type="button" value="Nuevo correo" class="btn btn-outline-info" id="btnNuevoCorreo">
+                            </div>
+                        </div>
         
                         <textarea name="otros" id="" rows="3" class="" placeholder="Mas detalles del cliente"></textarea>
-                        <input type="submit" value="Guardar" class="btn btn-info ">
+                        <input type="submit" value="Guardar" class="btn btn-primary">
                     </form>
                 </div>
                     {{ responseMessage }}
@@ -63,33 +90,34 @@ Nuevo Cliente |
             <div class="col-md-6 listar_clientes cristal_background">
                 <h2>Mi lista de clientes</h2>
                 <div class="table-responsive">
-                    <table class="table table-sm table-hover table-striped">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Cédula</th>
-                                <th>Nombres</th>
-                                <th>Apellidos</th>
-                                <th>Dirección</th>
-                                <th>Expediente</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for row, cliente in clientes %}
-                            <tr>
-                                <td scope="row">{{row + 1}}</td>
-                                <td>{{cliente.cedula}}</td>
-                                <td>{{cliente.nombres}}</td>
-                                <td>{{cliente.apellidos}}</td>
-                                <td>{{cliente.direccion}}</td>
-                                <td><a href="/expediente/{{cliente.cedula}}"><i class="bi bi-plus-circle"></i></a></td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    
                 </div>
             </div>
         </section>
     </div>
 </div>
 {% endblock contenido %}
+
+{% block scripts %}
+<script>
+    btnNuevoTelefono.onclick = ()=>{
+        const input = document.createElement("input");
+        input.type="tel"
+        input.placeholder="Número de telefono"
+        input.name="telefono[]"
+        input.pattern="[0-9]{10}"
+        telefonos_container.appendChild(input)
+    }
+    btnNuevoCorreo.onclick = ()=>{
+        const input = document.createElement("input");
+        input.type="email"
+        input.placeholder="Correo: email@example.com"
+        input.name="correo[]"
+        input.pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+        correos_container.appendChild(input)
+    }
+</script>
+{% endblock scripts %}
+
+{% block scriptTooltip %}
+{% endblock scriptTooltip %}

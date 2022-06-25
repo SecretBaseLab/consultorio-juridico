@@ -57,7 +57,7 @@ body{
   backdrop-filter: blur(var(--blur_cristal_mode));
 }
 /* efecto trnasparente para los input */
-input{
+input, textarea{
   margin-top: 10px;
   border: none;
   border-bottom: 1px solid var(--text_glass_color_dark);
