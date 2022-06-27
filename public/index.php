@@ -142,6 +142,17 @@ if (!$route) {
     }else{
         $controller = new $controllerName;      //genera una instancia de esa clase
         $response = $controller->$actionName($request);             //llama al metodo y recibe un obj response
+
+        if($sessionUserId){
+            //caduca la session en 60*60 segundos
+            if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > (60*60))) {
+                // last request was more than 30 minutes ago
+                session_unset();     // unset $_SESSION variable for the run-time 
+                session_destroy();   // destroy session data in storage
+            }else{
+                $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+            }
+        }
     }
 
     //imprimendo los headers del response
