@@ -91,9 +91,14 @@ $map->get('getDashboard', $dir_raiz . 'dashboard', [
     "auth" => true
 ]);
 
-$map->get('getFormNuevoCliente', $dir_raiz . 'nuevo-cliente', [
+$map->get('getFormNuevoCliente', $dir_raiz . 'cliente', [
     "controller" => "App\Controllers\clienteController",
-    "action" => "getFormNuevoCliente",
+    "action" => "getFormNuevoClienteAction",
+    "auth" => true
+]);
+$map->post('poatFormNuevoCliente', $dir_raiz . 'cliente/add', [
+    "controller" => "App\Controllers\clienteController",
+    "action" => "postFormNuevoClienteAction",
     "auth" => true
 ]);
 
@@ -135,6 +140,17 @@ if (!$route) {
     $needsAuth = $handlerData['auth'] ?? false;
 
     //autenticacion
+    if( isset( $_SESSION['user_name']) ){
+        //caduca la session en 60*60 segundos
+        if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > (60*60))) {
+            // last request was more than 30 minutes ago
+            session_unset();     // unset $_SESSION variable for the run-time 
+            session_destroy();   // destroy session data in storage
+        }else{
+            $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
+        }
+    }
+
     $sessionUserId = $_SESSION['user_name'] ?? null;
     if ($needsAuth && !$sessionUserId) {    //? niega el acceso si no esta logeado
         // echo 'protected route';
@@ -142,17 +158,6 @@ if (!$route) {
     }else{
         $controller = new $controllerName;      //genera una instancia de esa clase
         $response = $controller->$actionName($request);             //llama al metodo y recibe un obj response
-
-        if($sessionUserId){
-            //caduca la session en 60*60 segundos
-            if (isset($_SESSION['LAST_ACTIVITY']) && (time() - $_SESSION['LAST_ACTIVITY'] > (60*60))) {
-                // last request was more than 30 minutes ago
-                session_unset();     // unset $_SESSION variable for the run-time 
-                session_destroy();   // destroy session data in storage
-            }else{
-                $_SESSION['LAST_ACTIVITY'] = time(); // update last activity time stamp
-            }
-        }
     }
 
     //imprimendo los headers del response

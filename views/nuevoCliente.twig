@@ -52,7 +52,7 @@ Nuevo Cliente |
             <div class="col-md-6 nuevo_cliente cristal_background">
                 <h2>Nuevo Cliente</h2>
                 <div>
-                    <form action="/clientes/add" method="POST" class="nuevoCliente_form">
+                    <form action="cliente/add" method="POST" class="nuevoCliente_form">
                         <input type="text" name="cedula" placeholder="Número de cédula" required pattern="[0-9]{10}">
 
                         <div class="row">
@@ -70,14 +70,12 @@ Nuevo Cliente |
                             <div class="col-md-6 ">
                                 <div id="telefonos_container">
                                     <input type="tel" name="telefono[]" pattern="[0-9]{10}" placeholder="Número de telefono" >
-                                    <a href=""><i class="fa-solid fa-circle-xmark"></i></a>
                                 </div>
                                 <input type="button" value="Nuevo telefono" class="btn btn-outline-info" id="btnNuevoTelefono">
                             </div>
                             <div class="col-md-6 ">
                                 <div id="correos_container">
                                     <input type="email" name="correo[]" placeholder="Correo: email@example.com" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$">
-                                    <a href=""><i class="fa-solid fa-circle-xmark"></i></a>
                                 </div>
                                 <input type="button" value="Nuevo correo" class="btn btn-outline-info" id="btnNuevoCorreo">
                             </div>
