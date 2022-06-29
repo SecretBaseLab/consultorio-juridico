@@ -20,7 +20,7 @@ CREATE TABLE cliente(
     );
 
     create table correo_cliente (
-        correo varchar (10) not null,
+        correo varchar (100) not null,
         cedula varchar (10) not null,
         FOREIGN KEY (cedula) references cliente(cedula),
         PRIMARY KEY (correo, cedula),

@@ -57,10 +57,10 @@ Nuevo Cliente |
 
                         <div class="row">
                             <div class="col-md-6 nombres_container">
-                                <input type="text" name="nombres" placeholder="Nombres" required pattern="[A-Za-z]{3,}">
+                                <input type="text" name="nombres" placeholder="Nombres" required pattern="[A-Za-z- ]{3,}">
                             </div>
                             <div class="col-md-6 apellidos_container">
-                                <input type="text" name="apellidos" placeholder="Apellidos" required pattern="[A-Za-z]{3,}">
+                                <input type="text" name="apellidos" placeholder="Apellidos" required pattern="[A-Za-z- ]{3,}">
                             </div>
                         </div>
 
@@ -84,8 +84,7 @@ Nuevo Cliente |
                         <textarea name="otros" id="" rows="3" class="" placeholder="Mas detalles del cliente"></textarea>
                         <input type="submit" value="Guardar" class="btn btn-primary">
                     </form>
-                </div>
-                    {{ responseMessage }}
+                </div>                
             </div>
             <div class="col-md-6 listar_clientes cristal_background">
                 <h2>Mi lista de clientes</h2>
@@ -96,6 +95,10 @@ Nuevo Cliente |
         </section>
     </div>
 </div>
+{% autoescape "html" %}
+    {{ responseMessage|raw }}
+{% endautoescape %}
+
 {% endblock contenido %}
 
 {% block scripts %}

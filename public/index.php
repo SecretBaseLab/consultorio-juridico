@@ -1,4 +1,8 @@
 <?php
+/**
+ * @author Darwin Bayas <tidomar@gmail.com>
+ */
+
 // ?pa activar la visualizacion de errores en caso el servidor tenga desactivado
 ini_set("display_errors", 1);
 ini_set("display_startup_errors", 1);
