@@ -105,7 +105,11 @@ $map->post('poatFormNuevoCliente', $dir_raiz . 'cliente/add', [
     "action" => "postFormNuevoClienteAction",
     "auth" => true
 ]);
-
+$map->get('getCliente', $dir_raiz . 'cliente/{cedula}', [
+    "controller" => "App\Controllers\clienteController",
+    "action" => "getClienteAction",
+    "auth" => true
+]);
 
 
 $matcher = $routerContainer->getMatcher();

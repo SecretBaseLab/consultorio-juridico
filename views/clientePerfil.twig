@@ -1,0 +1,53 @@
+{% extends "main.twig" %}
+{% block title %}
+Nuevo Cliente |
+{{ parent() }}
+{% endblock %}
+{# bloque de estilos #}
+{% block styles %}
+<style>
+    .vista{
+        width: 100%;
+        margin-top: var(--altura_navbar);
+    }
+    .row{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .clientes_container{
+        color: var(--text_glass_color_dark);
+    }
+    .buscar_cliente,
+    .nuevo_cliente,
+    .listar_clientes{
+        margin: 10px 0;
+    }
+</style>
+{% endblock styles %}
+
+{# bloque del contenido de cada vista #}
+{% block contenido %}
+<div class="vista">
+  <div class="clientes_container cristal_background">
+    <h1>Cliente: {{cliente.nombres}}</h1>
+    <hr>
+    {{cliente}}
+ 
+  </div>
+</div>
+
+{% autoescape "html" %}
+    {{ responseMessage|raw }}
+{% endautoescape %}
+
+{% endblock contenido %}
+
+{% block jquery %}
+{% endblock jquery %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+{% block scriptTooltip %}
+{% endblock scriptTooltip %}

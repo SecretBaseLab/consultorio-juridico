@@ -52,7 +52,7 @@ Nuevo Cliente |
             <div class="col-md-6 nuevo_cliente cristal_background">
                 <h2>Nuevo Cliente</h2>
                 <div>
-                    <form action="cliente/add" method="POST" class="nuevoCliente_form">
+                    <form action="cliente/add" method="POST" class="nuevoCliente_form" id="nuevoCliente_form">
                         <input type="text" name="cedula" placeholder="Número de cédula" required pattern="[0-9]{10}">
 
                         <div class="row">
@@ -86,20 +86,23 @@ Nuevo Cliente |
                     </form>
                 </div>                
             </div>
-            <div class="col-md-6 listar_clientes cristal_background">
-                <h2>Mi lista de clientes</h2>
-                <div class="table-responsive">
-                    
-                </div>
-            </div>
         </section>
     </div>
 </div>
+<div id="alert_container">
+    
+</div>
+{#
 {% autoescape "html" %}
     {{ responseMessage|raw }}
 {% endautoescape %}
+#}
 
 {% endblock contenido %}
+
+{% block jquery %}
+{{ parent() }}
+{% endblock jquery %}
 
 {% block scripts %}
 <script>
@@ -119,6 +122,26 @@ Nuevo Cliente |
         input.pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
         correos_container.appendChild(input)
     }
+
+    nuevoCliente_form.onsubmit = (e)=>{
+        e.preventDefault();
+        //let obj = e.target;
+        let url = nuevoCliente_form.action;
+        $.ajax({
+            type: "POST",
+            url: url,
+            data: $(nuevoCliente_form).serialize(),
+            success: function(res) {
+                res = JSON.parse(res) //? haciendo json al texto resibido desde el backend
+                alert_container.innerHTML = res.responseMessage
+                if(res.redirect_path != "")
+                    window.location.replace(res.redirect_path)
+
+                setTimeout(() => {btn_close_alert.click()}, 2500)   //? cerrar el alert
+            }
+        });
+    }
+
 </script>
 {% endblock scripts %}
 

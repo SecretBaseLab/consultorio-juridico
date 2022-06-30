@@ -85,12 +85,35 @@ class clienteController extends CoreController{
     
     if($responseMessage == null){
       $responseMessage = 'Todos los datos se han guardado';
-      $assets = new assetsControler();
-      return $this->renderHTML('nuevoCliente.twig', [
-          'responseMessage' => $assets->alert($responseMessage, 'warning')
-      ]);
+      // return new RedirectResponse("/cliente/$datosCliente[cedula]");
+      //? proseso para ajax
+      $respuesta = array(
+        'responseMessage' => $responseMessage,
+        'redirect_path' => "/cliente/$datosCliente[cedula]"
+      );
+      return $this->jsonReturn(json_encode($respuesta));
     }else{
-      return new RedirectResponse('/dashboard/{cedula}');
+      $assets = new assetsControler();
+      // return $this->renderHTML('nuevoCliente.twig', [
+      //   'responseMessage' => $assets->alert($responseMessage, 'warning')
+      // ]);
+
+      //? proseso para ajax
+      $responseMessage = $assets->alertAjax($responseMessage, 'warning');
+      $respuesta = array(
+        'responseMessage' => $responseMessage,
+        'redirect_path' => ""
+      );
+      return $this->jsonReturn(json_encode($respuesta));
     }
+  }
+
+  public function getClienteAction($request){
+    $cedula = $request->getAttribute('cedula');
+    $cliente = cliente::where("cedula", $cedula)
+                            ->get();
+    return $this->renderHTML('clientePerfil.twig',[
+      'cliente' => $cliente[0]    //? devuelve un obj de arrays, solo quiero el primero o bien usar first() por get()
+    ]);
   }
 }
