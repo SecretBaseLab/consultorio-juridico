@@ -1,48 +1,44 @@
 {% extends "main.twig" %}
 {% block title %}
-Nuevo Cliente |
-{{ parent() }}
+404 |
+No encontramos lo que buscas :C
 {% endblock %}
 {# bloque de estilos #}
 {% block styles %}
 <style>
     .vista{
         width: 100%;
+        height: 90vh;
         margin-top: var(--altura_navbar);
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
-    .row{
-        width: 100%;
-        margin: 0;
-        padding: 0;
-    }
-    .clientes_container{
+    .container_404{
         color: var(--text_glass_color_dark);
+        text-align: center;
     }
-    .buscar_cliente,
-    .nuevo_cliente,
-    .listar_clientes{
-        margin: 10px 0;
+    h1{
+      font-size: 10em;
     }
+    p{
+      font-size: 2em;
+    }
+
 </style>
 {% endblock styles %}
 
 {# bloque del contenido de cada vista #}
 {% block contenido %}
 <div class="vista">
-  <div class="clientes_container cristal_background">
-    <h1>Cliente: {{cliente.nombres}}</h1>
-    <hr>
-    {{cliente}}
- 
+  <div class="container_404">
+    <h1>404</h1>
+    <p>No se encontro lo que buscas :C</p>
   </div>
 </div>
-
-{% autoescape "html" %}
-    {{ responseMessage|raw }}
-{% endautoescape %}
-
 {% endblock contenido %}
 
+{# scripts anulados o no usados en esta vista #}
 {% block jquery %}
 {% endblock jquery %}
 
@@ -51,3 +47,5 @@ Nuevo Cliente |
 
 {% block scriptTooltip %}
 {% endblock scriptTooltip %}
+
+{% block navbar %}{% endblock %}    {# con esto anulo en esta vista a navbar #}

@@ -1,0 +1,96 @@
+{% extends "main.twig" %}
+{% block title %}
+Nuevo Cliente |
+{{ parent() }}
+{% endblock %}
+{# bloque de estilos #}
+{% block styles %}
+<style>
+    .vista{
+        width: 100%;
+        margin-top: var(--altura_navbar);
+    }
+    .row{
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
+    .cliente_container{
+        color: var(--text_glass_color_dark);
+    }
+    .buscar_cliente,
+    .listar_clientes{
+        margin: 10px 0;
+    }
+    .cliente_datos_container{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+    .cliente_datos{
+      display: inherit;
+      flex-direction: inherit;
+      justify-content: inherit;
+      align-items: inherit;
+      margin: 10px;
+      padding: 20px;
+      width: 90%;
+    }
+</style>
+{% endblock styles %}
+
+{# bloque del contenido de cada vista #}
+{% block contenido %}
+<div class="vista">
+  <div class="cliente_container ">
+    <div class="row">
+      <div class="col-md-6">
+        <div class="cliente_datos_container">
+          <div class="cliente_datos cristal_background">
+            <h2>Datos del cliente</h2>
+            <h4>Cédula:</h4>
+            <p>{{cliente.cedula}}</p>
+            <h4>Nombres:</h4>
+            <p>{{cliente.nombres}} {{ cliente.apellidos }}</p>
+            <h4>Direccion:</h4>
+            <p>{{cliente.direccion}}</p>
+            <h4>Mas información:</h4>
+            <p>{{cliente.otros}}</p>
+            <h4>Fecha de registro:</h4>
+            <p>{{cliente.created_at}}</p>
+            <h4>Telefono:</h4>
+            {% for row, telefono in telefono_cliente %}
+            <p>{{telefono.numero}}</p>
+            {% endfor %}
+            <h4>Correo:</h4>
+            {% for row, correo in correo_cliente %}
+            <p>{{correo.correo}}</p>
+            {% endfor %}                                            
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <a href="/expediente/add/{{cliente.cedula}}" class="btn btn-info">Nuevo Expediente</a>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+{% autoescape "html" %}
+    {{ responseMessage|raw }}
+{% endautoescape %}
+
+{% endblock contenido %}
+
+{% block jquery %}
+{% endblock jquery %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+{% block scriptTooltip %}
+{% endblock scriptTooltip %}

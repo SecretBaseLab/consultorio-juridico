@@ -57,10 +57,17 @@ $map->get('index', $dir_raiz, [
     "controller" => "App\Controllers\loginController",
     "action" => "geFormLoginAction"
 ]);
+
+$map->get('404', $dir_raiz . '404', [
+    "controller" => "App\Controllers\loginController",
+    "action" => "Action_404"
+]);
+
 $map->post('Login', $dir_raiz, [
     "controller" => "App\Controllers\loginController",
     "action" => "postLoginAction"
 ]);
+
 $map->get('logout', $dir_raiz . 'logout', [
     "controller" => "App\Controllers\loginController",
     "action" => "getLogoutAction",
@@ -95,7 +102,7 @@ $map->get('getDashboard', $dir_raiz . 'dashboard', [
     "auth" => true
 ]);
 
-$map->get('getFormNuevoCliente', $dir_raiz . 'cliente', [
+$map->get('getFormNuevoCliente', $dir_raiz . 'cliente/add', [
     "controller" => "App\Controllers\clienteController",
     "action" => "getFormNuevoClienteAction",
     "auth" => true
@@ -132,8 +139,7 @@ if (!$route) {
             break;
         default:
             // 404 NOT FOUND
-            echo '404 no se encuentra lo q buscas';
-            break;
+            header('Location: /404');
     }
 } else {
     // add route attributes to the request

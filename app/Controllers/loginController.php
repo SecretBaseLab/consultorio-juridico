@@ -8,6 +8,13 @@ use Laminas\Diactoros\Response\RedirectResponse;
 
 
 class loginController extends CoreController{
+    /**
+     * funcion para generar una vista 404 para paginas no encontradas
+     */
+    public function Action_404(){
+        return $this->renderHTML('404.twig');
+    }
+
     public function geFormLoginAction(){
         if ( isset($_SESSION['user_name']) )
             return new RedirectResponse('/dashboard');
@@ -21,7 +28,7 @@ class loginController extends CoreController{
         return $this->renderHTML('signup.twig');
       else
         return new RedirectResponse('/dashboard');
-  }
+    }
     
     public function postLoginAction($request){
         $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion

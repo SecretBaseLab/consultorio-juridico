@@ -4,6 +4,7 @@ namespace App\Controllers;
 use App\Models\cliente;
 use App\Models\correo_cliente;
 use App\Models\telefono_cliente;
+use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
 
@@ -91,7 +92,6 @@ class clienteController extends CoreController{
         'responseMessage' => $responseMessage,
         'redirect_path' => "/cliente/$datosCliente[cedula]"
       );
-      return $this->jsonReturn(json_encode($respuesta));
     }else{
       $assets = new assetsControler();
       // return $this->renderHTML('nuevoCliente.twig', [
@@ -104,16 +104,30 @@ class clienteController extends CoreController{
         'responseMessage' => $responseMessage,
         'redirect_path' => ""
       );
-      return $this->jsonReturn(json_encode($respuesta));
     }
+    return $this->jsonReturn(json_encode($respuesta));
   }
 
   public function getClienteAction($request){
     $cedula = $request->getAttribute('cedula');
+
     $cliente = cliente::where("cedula", $cedula)
                             ->get();
-    return $this->renderHTML('clientePerfil.twig',[
-      'cliente' => $cliente[0]    //? devuelve un obj de arrays, solo quiero el primero o bien usar first() por get()
-    ]);
+    // print( "<pre>". print_r($cliente, true)."</pre>" );
+
+    //? verificando si existe el cliente
+    if( isset($cliente[0]) ){
+      $telefono_cliente = telefono_cliente::where("cedula", $cedula)
+                              ->get();
+      $correo_cliente = correo_cliente::where("cedula", $cedula)
+                              ->get();
+      return $this->renderHTML('cliente.twig',[
+        'cliente' => $cliente[0],    //? devuelve un obj de arrays, solo quiero el primero o bien usar first() por get()
+        'telefono_cliente' => $telefono_cliente,
+        'correo_cliente' => $correo_cliente
+      ]);
+    }else
+      // el cliente no existe
+      return $this->renderHTML('404.twig');
   }
 }

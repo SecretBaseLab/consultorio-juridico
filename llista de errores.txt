@@ -1,2 +1,6 @@
 ex001 = ingreso de datos incorrectos, quiza ingreso un caracter no valido en un campo
 ex002 = password master incorrecto
+
+
+//pa imprimir array que se pueda leer
+print( "<pre>". print_r($cliente, true)."</pre>" )
