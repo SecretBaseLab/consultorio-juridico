@@ -118,6 +118,11 @@ $map->get('getCliente', $dir_raiz . 'cliente/{cedula}', [
     "auth" => true
 ]);
 
+$map->get('get_form_nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
+    "controller" => 'App\Controllers\expedienteController',
+    "action" => 'get_form_nuevo_expediente_action',
+    "auth" => true
+]);
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
@@ -139,6 +144,8 @@ if (!$route) {
             break;
         default:
             // 404 NOT FOUND
+            // echo '404 no se encuentra';
+
             header('Location: /404');
     }
 } else {
