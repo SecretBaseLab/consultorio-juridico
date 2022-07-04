@@ -123,6 +123,11 @@ $map->get('get_form_nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
     "action" => 'get_form_nuevo_expediente_action',
     "auth" => true
 ]);
+$map->post('post_nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
+    "controller" => 'App\Controllers\expedienteController',
+    "action" => 'post_form_nuevo_expediente_action',
+    "auth" => true
+]);
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);

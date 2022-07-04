@@ -18,9 +18,7 @@ Nuevo Cliente |
     .clientes_container{
         color: var(--text_glass_color_dark);
     }
-    .buscar_cliente,
-    .nuevo_cliente,
-    .listar_clientes{
+    .nuevo_cliente{
         margin: 10px 0;
     }
     .nuevoCliente_form,
@@ -40,14 +38,6 @@ Nuevo Cliente |
     <div class="clientes_container">
         <h1>Clientes</h1>
         <hr>
-        <section class="row buscar_cliente cristal_background">
-            <h2>Buscar Cliente</h2>
-            <form class="d-flex">
-                <input class=" me-2" type="search" placeholder="Search" aria-label="Search">
-                <button class="btn btn-sm btn-outline-success" type="submit">Search</button>
-            </form>
-        </section>
-        
         <section class="row cliente">
             <div class="col-md-6 nuevo_cliente cristal_background">
                 <h2>Nuevo Cliente</h2>
@@ -100,10 +90,6 @@ Nuevo Cliente |
 
 {% endblock contenido %}
 
-{% block jquery %}
-{{ parent() }}
-{% endblock jquery %}
-
 {% block scripts %}
 <script>
     btnNuevoTelefono.onclick = ()=>{
@@ -145,5 +131,7 @@ Nuevo Cliente |
 </script>
 {% endblock scripts %}
 
+
+{# scripts anulados #}
 {% block scriptTooltip %}
 {% endblock scriptTooltip %}

@@ -19,6 +19,9 @@ class CoreController{
         return new HtmlResponse( $this->templateEngine->render($fileName, $data) ); //envia el html al cliente rellenando los datos
     }
 
+    /**
+     * retorna al cliente un json
+     */
     public function jsonReturn($data){
         return new JsonResponse($data);
     }
