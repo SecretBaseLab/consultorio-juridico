@@ -103,13 +103,13 @@ $map->get('getDashboard', $dir_raiz . 'dashboard', [
 ]);
 
 $map->get('getFormNuevoCliente', $dir_raiz . 'cliente/add', [
-    "controller" => "App\Controllers\clienteController",
-    "action" => "getFormNuevoClienteAction",
+    "controller" => 'App\Controllers\clienteController',
+    "action" => 'getFormNuevoClienteAction',
     "auth" => true
 ]);
 $map->post('poatFormNuevoCliente', $dir_raiz . 'cliente/add', [
-    "controller" => "App\Controllers\clienteController",
-    "action" => "postFormNuevoClienteAction",
+    "controller" => 'App\Controllers\clienteController',
+    "action" => 'postFormNuevoClienteAction',
     "auth" => true
 ]);
 $map->get('getCliente', $dir_raiz . 'cliente/{cedula}', [

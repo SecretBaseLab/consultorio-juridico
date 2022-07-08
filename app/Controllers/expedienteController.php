@@ -8,8 +8,6 @@ use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
 use Illuminate\Support\Facades\DB;
 
-Request
-
 class expedienteController extends CoreController{
 
   public function get_form_nuevo_expediente_action($request){
@@ -52,7 +50,7 @@ class expedienteController extends CoreController{
         $usuariosValidator->assert($datosCliente);   //? validando
         v::each(v::stringType()->notEmpty())->validate($notas_expediente);  //? validando un array
         //? fin de la validacion
-/*
+  /*
         $files = $request->getUploadedFiles();    //? captura datos de archivos subidos
         $files = $files['adjuntos_expediente'];
         foreach ($files as $file) {
@@ -75,7 +73,7 @@ class expedienteController extends CoreController{
           }
         }
         
-*/
+  */
 
         $expediente_local = new expediente_local();
         $expediente_local->cedula = $datosCliente['cedula'];
@@ -92,7 +90,7 @@ class expedienteController extends CoreController{
         //   'numero_expediente' => $numero_expediente,
         //   'created_at' => $datosCliente['fecha_inicio_expediente']
         // ]);
-/*
+  /*
         if($expediente_local->save() != 1)
           $responseMessage = 'Datos del cliente no se pudo guardar<br>';
 

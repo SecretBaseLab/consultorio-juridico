@@ -42,7 +42,7 @@ Nuevo Cliente |
             <div class="col-md-6 nuevo_cliente cristal_background">
                 <h2>Nuevo Cliente</h2>
                 <div>
-                    <form action="cliente/add" method="POST" class="nuevoCliente_form" id="nuevoCliente_form">
+                    <form action="/cliente/add" method="POST" class="nuevoCliente_form" id="nuevoCliente_form">
                         <input type="text" name="cedula" placeholder="Número de cédula" required pattern="[0-9]{10}">
 
                         <div class="row">
@@ -118,6 +118,7 @@ Nuevo Cliente |
             url: url,
             data: $(nuevoCliente_form).serialize(),
             success: function(res) {
+                console.log(res)
                 res = JSON.parse(res) //? haciendo json al texto resibido desde el backend
                 alert_container.innerHTML = res.responseMessage
                 if(res.redirect_path != "")
