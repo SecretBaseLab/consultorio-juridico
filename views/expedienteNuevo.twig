@@ -28,6 +28,9 @@ Nuevo Cliente |
   select{
     cursor: pointer;
   }
+  label{
+    padding-top: 20px;
+  }
 
 </style>
 {% endblock styles %}
@@ -67,6 +70,8 @@ Nuevo Cliente |
               <h5>Adjuntar Archivos al Expediente</h5>
           </label>
           <input type="file" class="" name="adjuntos_expediente[]" id="adjuntos_expediente" placeholder="Adjuntar Archivos" required multiple>
+
+          <textarea name="otros" rows="4" placeholder="Mas información del expediente"></textarea>
 
           <label for="notas_expediente">
               <h5>Notas del Expediente</h5>

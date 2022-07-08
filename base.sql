@@ -238,7 +238,7 @@ create table audiencia(
 
 create table usuarios(
     cedula varchar(10) not null primary key,
-    rol VARCHAR(20) default "Admin" CHECK( rol="Admin" or rol="Secretario/a"),
+    rol VARCHAR(20) default "Admin" CHECK( rol="Admin" or rol="Asistente"),
     nombres VARCHAR(50) not null,
     apellidos varchar(50) not null,
     telefono varchar(10) not null,
@@ -250,8 +250,10 @@ create table usuarios(
 );
 
 CREATE TABLE pass_master(
-    id int UNSIGNED AUTO_INCREMENT PRIMARY KEY
     password text not null,
     created_at DATETIME,
     updated_at DATETIME
 );
+
+
+INSERT INTO `pass_master` VALUES ('$2y$10$CdOK6vNq.XAEL4Sh5dvFIeL4QXHQ.XmTvQgcdcFi75.gl4IdiniDy','2022-07-08 07:17:26','2022-07-08 07:17:26');

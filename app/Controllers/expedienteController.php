@@ -6,6 +6,9 @@ use App\Models\expediente_local;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
+use Illuminate\Support\Facades\DB;
+
+Request
 
 class expedienteController extends CoreController{
 
@@ -34,62 +37,88 @@ class expedienteController extends CoreController{
       $datosCliente = array(
         'cedula' => $cedula,
         'tipo' => $postData['tipo'],
-        'fecha_inicio_expediente' => $postData['fecha_inicio_expediente']
+        'fecha_inicio_expediente' => $postData['fecha_inicio_expediente'],
+        'otros' => $postData['otros']
       );
       $notas_expediente = $postData['notas_expediente'];
-      
+
+      //? inicio validacion de datos
       $usuariosValidator = v::key('cedula', v::stringType()->noWhitespace()->notEmpty())
       ->key('tipo', v::stringType()->notEmpty())
-      ->key('fecha_inicio_expediente', v::stringType()->notEmpty());
+      ->key('fecha_inicio_expediente', v::stringType()->notEmpty())
+      ->key('otros', v::stringType());
 
       try {
         $usuariosValidator->assert($datosCliente);   //? validando
-        //? validando un array
-        v::each(v::stringType()->notEmpty())->validate($notas_expediente);
+        v::each(v::stringType()->notEmpty())->validate($notas_expediente);  //? validando un array
+        //? fin de la validacion
 /*
-        //verificando si ya existe ese usuario
-        $cliente = new cliente();
-        $existeCliente= $cliente
-                    ->where("cedula", $datosCliente['cedula'])
-                    ->select('cedula')
-                    ->first();
-        if ( $existeCliente ) {
-            $responseMessage = 'Este usuario ya esta registrado';
-        }else{
-          $cliente->cedula = $datosCliente['cedula'];
-          $cliente->tipo = $datosCliente['tipo'];
-          $cliente->apellidos = $datosCliente['apellidos'];
-          $cliente->direccion = $datosCliente['direccion'];
-          $cliente->otros = $datosCliente['otros'];
-          if($cliente->save() != 1)
-            $responseMessage = 'Datos del cliente no se pudo guardar<br>';
+        $files = $request->getUploadedFiles();    //? captura datos de archivos subidos
+        $files = $files['adjuntos_expediente'];
+        foreach ($files as $file) {
+          if($file->getError() == UPLOAD_ERR_OK ){
+            $fileName = $file->getClientFilename();
+            v::stringType()->notEmpty()->validate($fileName);   //? validando en nombre del archivo pa evitar inyeccion
+            $extension = pathinfo($file->getClientFilename(), PATHINFO_EXTENSION);
+            $fileName_hash = md5($fileName.date('Ymd')).'.'.$extension;
+            $file->moveTo("uploads/adjuntos_expediente/$fileName_hash");
+            
+            $expediente_local = new expediente_local();
+            $expediente_local->fileName = $fileName;
+            $expediente_local->fileName_hash = $fileName_hash;
+            $expediente_local->extension = $extension;
+            $expediente_local->numero_expediente = $numero_expediente;
+            $expediente_local->created_at = $datosCliente['fecha_inicio_expediente'];
+            $expediente_local->save();
 
-          foreach ($correosCliente as $correo) {
-            $correo_cliente = new correo_cliente();
-            $correo_cliente->correo = $correo;
-            $correo_cliente->cedula = $datosCliente['cedula'];
-
-            if($correo_cliente->save() != 1)
-              $responseMessage .= "No se pudo guardar: $correo <br>";
-          }
-
-          foreach ($telefonosCliente as $telefono) {
-            $telefono_cliente = new telefono_cliente();
-            $telefono_cliente->numero = $telefono;
-            $telefono_cliente->cedula = $datosCliente['cedula'];
-
-            if($telefono_cliente->save() != 1)
-              $responseMessage .= "No se pudo guardar: $telefono <br>";
+           
           }
         }
-        */
+        
+*/
+
+        $expediente_local = new expediente_local();
+        $expediente_local->cedula = $datosCliente['cedula'];
+        $expediente_local->tipo = $datosCliente['tipo'];
+        $expediente_local->created_at = $datosCliente['fecha_inicio_expediente'];
+        $expediente_local->otros = $datosCliente['otros'];
+        $id = $expediente_local->save();
+        print_r($id);
+
+        // $numero_expediente = DB::table('expediente_local')->insertGetId([
+        //   'fileName' => $fileName,
+        //   'fileName_hash' => $fileName_hash,
+        //   'extension' => $extension,
+        //   'numero_expediente' => $numero_expediente,
+        //   'created_at' => $datosCliente['fecha_inicio_expediente']
+        // ]);
+/*
+        if($expediente_local->save() != 1)
+          $responseMessage = 'Datos del cliente no se pudo guardar<br>';
+
+        foreach ($correosCliente as $correo) {
+          $correo_cliente = new correo_cliente();
+          $correo_cliente->correo = $correo;
+          $correo_cliente->cedula = $datosCliente['cedula'];
+
+          $id = DB::table('users')->insertGetId(
+            ['email' => 'john@example.com', 'votes' => 0]
+          );
+
+          if($correo_cliente->save() != 1)
+            $responseMessage .= "No se pudo guardar: $correo <br>";
+        }*/
+
+        
+        print_r($postData);
+        print_r($files);
       } catch (\Exception $e) {
           $responseMessage = 'Ha ocurrido un error! ex001';
           // $responseMessage = $e->getMessage();
       }
       
     }
-    
+    // return $this->jsonReturn($files);
     $assets = new assetsControler();
     return $this->renderHTML('expedienteNuevo.twig', [
         'responseMessage' => $assets->alert($responseMessage, 'warning')
