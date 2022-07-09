@@ -149,9 +149,9 @@ if (!$route) {
             break;
         default:
             // 404 NOT FOUND
-            // echo '404 no se encuentra';
+            echo '404 no se encuentra';
 
-            header('Location: /404');
+            // header('Location: /404');
     }
 } else {
     // add route attributes to the request

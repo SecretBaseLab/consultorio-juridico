@@ -6,7 +6,9 @@ use App\Models\expediente_local;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Capsule\Manager as Capsule;      //conexion con la base de datos usando Query Builder
+
+
 
 class expedienteController extends CoreController{
 
@@ -50,9 +52,18 @@ class expedienteController extends CoreController{
         $usuariosValidator->assert($datosCliente);   //? validando
         v::each(v::stringType()->notEmpty())->validate($notas_expediente);  //? validando un array
         //? fin de la validacion
-  /*
+ 
         $files = $request->getUploadedFiles();    //? captura datos de archivos subidos
         $files = $files['adjuntos_expediente'];
+
+        $numero_expediente = Capsule::table('expediente_local')->insertGetId([
+          'cedula' => $datosCliente['cedula'],
+          'tipo' => $datosCliente['tipo'],
+          'otros' => $datosCliente['otros'],
+          'created_at' => $datosCliente['fecha_inicio_expediente']
+        ]);
+        print_r($numero_expediente);
+        /*
         foreach ($files as $file) {
           if($file->getError() == UPLOAD_ERR_OK ){
             $fileName = $file->getClientFilename();
@@ -74,22 +85,8 @@ class expedienteController extends CoreController{
         }
         
   */
-
-        $expediente_local = new expediente_local();
-        $expediente_local->cedula = $datosCliente['cedula'];
-        $expediente_local->tipo = $datosCliente['tipo'];
-        $expediente_local->created_at = $datosCliente['fecha_inicio_expediente'];
-        $expediente_local->otros = $datosCliente['otros'];
-        $id = $expediente_local->save();
-        print_r($id);
-
-        // $numero_expediente = DB::table('expediente_local')->insertGetId([
-        //   'fileName' => $fileName,
-        //   'fileName_hash' => $fileName_hash,
-        //   'extension' => $extension,
-        //   'numero_expediente' => $numero_expediente,
-        //   'created_at' => $datosCliente['fecha_inicio_expediente']
-        // ]);
+        
+        
   /*
         if($expediente_local->save() != 1)
           $responseMessage = 'Datos del cliente no se pudo guardar<br>';
@@ -108,11 +105,11 @@ class expedienteController extends CoreController{
         }*/
 
         
-        print_r($postData);
-        print_r($files);
+        // print_r($postData);
+        // print_r($files);
       } catch (\Exception $e) {
           $responseMessage = 'Ha ocurrido un error! ex001';
-          // $responseMessage = $e->getMessage();
+          $responseMessage = $e->getMessage();
       }
       
     }
@@ -122,4 +119,6 @@ class expedienteController extends CoreController{
         'responseMessage' => $assets->alert($responseMessage, 'warning')
     ]);
   }
+
+
 }
