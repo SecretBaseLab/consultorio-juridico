@@ -29,14 +29,14 @@ class clienteController extends CoreController{
       $correosCliente = $postData['correo'];
       // print_r($postData);
       
-      $usuariosValidator = v::key('cedula', v::stringType()->noWhitespace()->notEmpty())
+      $validator = v::key('cedula', v::stringType()->noWhitespace()->notEmpty())
       ->key('nombres', v::stringType()->notEmpty())
       ->key('apellidos', v::stringType()->notEmpty())
       ->key('direccion', v::stringType()->notEmpty())
       ->key('otros', v::stringType());
 
       try {
-        $usuariosValidator->assert($datosCliente);   //? validando
+        $validator->assert($datosCliente);   //? validando
         //? validando un array
         v::each(v::stringType()->notEmpty()->noWhitespace()->phone())->validate($telefonosCliente);
         v::each(v::stringType()->notEmpty()->noWhitespace()->email())->validate($correosCliente);
@@ -94,10 +94,7 @@ class clienteController extends CoreController{
       );
     }else{
       $assets = new assetsControler();
-      // return $this->renderHTML('nuevoCliente.twig', [
-      //   'responseMessage' => $assets->alert($responseMessage, 'warning')
-      // ]);
-
+      
       //? proseso para ajax
       $responseMessage = $assets->alertAjax($responseMessage, 'warning');
       $respuesta = array(

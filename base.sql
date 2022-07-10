@@ -32,19 +32,12 @@ create table expediente_local (
     numero_expediente int UNSIGNED AUTO_INCREMENT PRIMARY KEY, 
     tipo varchar (50) not null check (tipo="Civil" or tipo="Penal" or tipo="Contencioso"),
     created_at DATETIME COMMENT "fecha_inicio_expediente",
-    updated_at DATETIME,
+    updated_at DATETIME COMMENT "fecha de cambio de estado del expediente",
     otros varchar (100),
+    estado varchar (50) default "En curso" CHECK (estado="Finalizado" or estado="En curso" or estado="Abandonado"),
     cedula varchar (10) not null,
     FOREIGN KEY (cedula) references cliente(cedula)
 );
-    CREATE TABLE estado_expediente(
-        id_estado int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
-        estado varchar (50) default "En curso" CHECK (estado="Finalizado" or estado="En curso" or estado="Abandonado"),
-        created_at DATETIME COMMENT "fecha del cambio de estado",
-        updated_at DATETIME,
-        numero_expediente int UNSIGNED not null,
-        FOREIGN KEY (numero_expediente) REFERENCES expediente_local(numero_expediente)
-    );
     CREATE TABLE notas_expediente (
         id_notas int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
         created_at DATETIME COMMENT "fecha de la nueva nota",
