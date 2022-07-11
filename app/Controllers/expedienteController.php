@@ -5,7 +5,7 @@ use App\Models\cliente;
 use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
-use Illuminate\Database\Capsule\Manager as Capsule;      //conexion con la base de datos usando Query Builder
+use Illuminate\Database\Capsule\Manager as Capsule;      //? conexion con la base de datos usando Query Builder
 
 
 
@@ -28,10 +28,10 @@ class expedienteController extends CoreController{
 
   public function post_form_nuevo_expediente_action($request){
     $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
+    $cedula = $request->getAttribute('cedula');
 
     if ($request->getMethod() == "POST") {
       $postData = $request->getParsedBody();
-      $cedula = $request->getAttribute('cedula');
       
       $datosExpediente = array(
         'cedula' => $cedula,
@@ -59,27 +59,57 @@ class expedienteController extends CoreController{
           'created_at' => $datosExpediente['fecha_inicio_expediente']
         ]);
         
-        if( $numero_expediente != 1 )
+        if( !(v::number()->validate( $numero_expediente )) )
           $responseMessage = 'Datos del expediente no se pudo guardar<br>';
-        assetsControler::adjuntos_expediente_insert($request, $numero_expediente, $datosExpediente['fecha_inicio_expediente']);
 
-        foreach ($notas_expediente as $nota) {
-          Capsule::table('notas_expediente')->insert([
-            '`descripcion`' => $nota,
-            'created_at' => $datosExpediente['fecha_inicio_expediente'],
-            'numero_expediente' => $numero_expediente
-          ]);
-        }
+        $files = $request->getUploadedFiles();    //? captura datos de archivos subidos
+        $files = $files['adjuntos_expediente'];
+        assetsControler::upload_files(
+          $files,
+          'adjuntos_expediente',
+          'numero_expediente',
+          $numero_expediente,
+          $datosExpediente['fecha_inicio_expediente'],
+          $responseMessage
+        );
+
+        $this->notas_expediente_insert(
+          $notas_expediente,
+          $datosExpediente['fecha_inicio_expediente'],
+          $numero_expediente,
+          $responseMessage
+        );
+        
       } catch (\Exception $e) {
           $responseMessage = 'Ha ocurrido un error! ex001';
-          $responseMessage = $e->getMessage();
+          // $responseMessage = $e->getMessage();
       }
-      
     }
     // return $this->jsonReturn($files);
-    $assets = new assetsControler();
-    return $this->renderHTML('expedienteNuevo.twig', [
-        'responseMessage' => $assets->alert($responseMessage, 'warning')
-    ]);
+    if( $responseMessage == null )
+      return new RedirectResponse("/cliente/$cedula");
+    else{
+      $cliente = cliente::where("cedula", $cedula)
+                            ->get()->first();
+      return $this->renderHTML('expedienteNuevo.twig', [
+          'responseMessage' => assetsControler::alert($responseMessage, 'warning'),
+          'cliente' => $cliente
+      ]);
+    }
+  }
+
+  /**
+   * insertar una nota al expediente
+   */
+  private function notas_expediente_insert($notas_expediente, $created_at, $numero_expediente, &$responseMessage = null){
+    foreach ($notas_expediente as $nota) {
+      $response = Capsule::table('notas_expediente')->insert([
+        'descripcion' => $nota,
+        'created_at' => $created_at,
+        'numero_expediente' => $numero_expediente
+      ]);
+      if( $response != 1)
+        $responseMessage .= "Alguna nota no se pudo guardar. Revise!";
+    }
   }
 }

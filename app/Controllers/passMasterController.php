@@ -36,9 +36,8 @@ class passMasterController extends CoreController{
             }
         }
 
-        $assets = new assetsControler();
         return $this->renderHTML('passMaster.twig', [
-            'responseMessage' => $assets->alert($responseMessage)
+            'responseMessage' => assetsControler::alert($responseMessage)
         ]);
     }
 }

@@ -63,9 +63,8 @@ class loginController extends CoreController{
         }
 
         //mensaje de retorno a la misma vista con un alert
-        $assets = new assetsControler();
         return $this->renderHTML('index.twig', [
-            'responseMessage' => $assets->alert($responseMessage, 'warning')
+            'responseMessage' => assetsControler::alert($responseMessage, 'warning')
         ]);
     }
 
@@ -126,9 +125,8 @@ class loginController extends CoreController{
             }
             // return $this->jsonReturn($existeusuario);
         }
-        $assets = new assetsControler();
         return $this->renderHTML('signup.twig', [
-            'responseMessage' => $assets->alert($responseMessage, 'warning')
+            'responseMessage' => assetsControler::alert($responseMessage, 'warning')
         ]);
     }
 

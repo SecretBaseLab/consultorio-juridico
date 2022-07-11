@@ -93,10 +93,8 @@ class clienteController extends CoreController{
         'redirect_path' => "/cliente/$datosCliente[cedula]"
       );
     }else{
-      $assets = new assetsControler();
-      
       //? proseso para ajax
-      $responseMessage = $assets->alertAjax($responseMessage, 'warning');
+      $responseMessage = assetsControler::alertAjax($responseMessage, 'warning');
       $respuesta = array(
         'responseMessage' => $responseMessage,
         'redirect_path' => ""
