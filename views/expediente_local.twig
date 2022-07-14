@@ -1,0 +1,73 @@
+{% extends "main.twig" %}
+{% block title %}
+Expediente local |
+{{ parent() }}
+{% endblock %}
+{# bloque de estilos #}
+{% block styles %}
+<style>
+  .vista{
+      width: 100%;
+      margin-top: var(--altura_navbar);
+  }
+  .row{
+      width: 100%;
+      margin: 0;
+      padding: 0;
+  }
+  .expediente_container{
+      color: var(--text_glass_color_dark);
+  }
+</style>
+{% endblock styles %}
+
+{# bloque del contenido de cada vista #}
+{% block contenido %}
+<div class="vista">
+  <div class="expediente_container ">
+    <div class="row">
+      <div class="col-md-6 cristal_background">
+        
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><b>Número Expediente: </b>{{expediente_local.numero_expediente}}</li>
+          <li class="list-group-item"><b>Tipo:</b> {{expediente_local.tipo}}</li>
+          <li class="list-group-item"><b>Fecha de inicio:</b> {{expediente_local.created_at}}</li>
+          <li class="list-group-item"><b>Estado:</b> {{expediente_local.estado}}</li>
+        </ul>
+        <textarea name="" id="" rows="3" readonly>
+          {{expediente_local.otros}}
+
+        </textarea>
+        <hr>
+        {% for row, nota in notas_expediente %}
+          {{nota.id_notas}}
+          {{nota.created_at}}
+          <textarea name="" id="" rows="3">
+            {{nota.descripcion}}
+          </textarea>
+        {% endfor %}
+      </div>
+      <div class="col-md-6">
+        {% for row, adjunto in adjuntos_expediente %}
+          {{adjunto.id_archivo}}
+          {{adjunto.file_name}}
+          {{adjunto.file_name_hash}}
+          {{adjunto.extension}}
+          {{adjunto.created_at}}
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock contenido %}
+
+
+{# scripts anulados o no usados en esta vista #}
+{% block jquery %}
+{% endblock jquery %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+{% block scriptTooltip %}
+{% endblock scriptTooltip %}
