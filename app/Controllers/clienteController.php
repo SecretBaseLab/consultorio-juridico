@@ -4,9 +4,9 @@ namespace App\Controllers;
 use App\Models\cliente;
 use App\Models\correo_cliente;
 use App\Models\telefono_cliente;
-use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
+use Illuminate\Database\Capsule\Manager as Capsule;      //? conexion con la base de datos usando Query Builder
 
 class clienteController extends CoreController{
   public function getFormNuevoClienteAction(){
@@ -116,10 +116,16 @@ class clienteController extends CoreController{
                               ->get();
       $correo_cliente = correo_cliente::where("cedula", $cedula)
                               ->get();
+      $expediente_local = Capsule::table('expediente_local')
+      ->select('numero_expediente', 'tipo','estado','created_at')
+      ->where("expediente_local.cedula", "=", $cedula)
+      ->latest()
+      ->get();
       return $this->renderHTML('cliente.twig',[
         'cliente' => $cliente[0],    //? devuelve un obj de arrays, solo quiero el primero o bien usar first() por get()
         'telefono_cliente' => $telefono_cliente,
-        'correo_cliente' => $correo_cliente
+        'correo_cliente' => $correo_cliente,
+        'expediente_local' => $expediente_local
       ]);
     }else
       // el cliente no existe

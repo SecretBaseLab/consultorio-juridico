@@ -24,7 +24,6 @@ Nuevo Cliente |
       height: 100%;
       display: flex;
       flex-direction: column;
-      justify-content: center;
       align-items: center;
     }
     .cliente_datos{
@@ -59,18 +58,42 @@ Nuevo Cliente |
             <h4>Fecha de registro:</h4>
             <p>{{cliente.created_at}}</p>
             <h4>Telefono:</h4>
+            <p>
             {% for row, telefono in telefono_cliente %}
-            <p>{{telefono.numero}}</p>
+            {{telefono.numero}}
             {% endfor %}
+            </p>
             <h4>Correo:</h4>
+            <p>
             {% for row, correo in correo_cliente %}
-            <p>{{correo.correo}}</p>
-            {% endfor %}                                            
+            {{correo.correo}}
+            {% endfor %}            
+            </p>                                
           </div>
         </div>
       </div>
       <div class="col-md-6">
-        <a href="/expediente/add/{{cliente.cedula}}" class="btn btn-info">Nuevo Expediente</a>
+        <a href="/expediente/add/{{cliente.cedula}}" class="btn btn-danger form-control">Nuevo Expediente</a>
+        <table class="table table-light table-striped table-hover table-sm table-responsive">
+          <thead>
+            <tr>
+              <th scope="col">Tipo</th>
+              <th scope="col">Estado</th>
+              <th scope="col">Fecha Inicio</th>
+              <th scope="col" colspan="2">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for row, expediente in expediente_local %}
+            <tr>
+              <td>{{expediente.tipo}}</td>
+              <td>{{expediente.estado}}</td>
+              <td>{{ expediente.created_at|date('Y-m-d') }}</td>
+              <td><i class="fa-solid fa-eye"></i></td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
       </div>
     </div>
     

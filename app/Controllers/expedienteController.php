@@ -112,4 +112,6 @@ class expedienteController extends CoreController{
         $responseMessage .= "Alguna nota no se pudo guardar. Revise!";
     }
   }
+
+
 }

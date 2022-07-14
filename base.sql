@@ -13,7 +13,7 @@ CREATE TABLE cliente(
     create table telefono_cliente (
         numero varchar (10) not null,
         cedula varchar (10) not null,
-        FOREIGN KEY (cedula) references cliente(cedula),
+        FOREIGN KEY (cedula) references cliente(cedula) ON DELETE CASCADE,
         PRIMARY KEY (numero, cedula),
         created_at DATETIME,
         updated_at DATETIME 
@@ -22,7 +22,7 @@ CREATE TABLE cliente(
     create table correo_cliente (
         correo varchar (100) not null,
         cedula varchar (10) not null,
-        FOREIGN KEY (cedula) references cliente(cedula),
+        FOREIGN KEY (cedula) references cliente(cedula) ON DELETE CASCADE,
         PRIMARY KEY (correo, cedula),
         created_at DATETIME,
         updated_at DATETIME
@@ -36,7 +36,7 @@ create table expediente_local (
     otros varchar (100),
     estado varchar (50) default "En curso" CHECK (estado="Finalizado" or estado="En curso" or estado="Abandonado"),
     cedula varchar (10) not null,
-    FOREIGN KEY (cedula) references cliente(cedula)
+    FOREIGN KEY (cedula) references cliente(cedula) ON DELETE CASCADE
 );
     CREATE TABLE notas_expediente (
         id_notas int UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -44,7 +44,7 @@ create table expediente_local (
         updated_at DATETIME,
         descripcion text,
         numero_expediente int UNSIGNED,
-        FOREIGN KEY (numero_expediente) REFERENCES expediente_local(numero_expediente)
+        FOREIGN KEY (numero_expediente) REFERENCES expediente_local(numero_expediente) ON DELETE CASCADE
     );
 
     create table adjuntos_expediente (
@@ -55,7 +55,7 @@ create table expediente_local (
         created_at DATETIME COMMENT "fecha en que se sube un nuevo archivo al expediente",
         updated_at DATETIME,
         numero_expediente int UNSIGNED not null,
-        FOREIGN KEY (numero_expediente) REFERENCES expediente_local(numero_expediente)
+        FOREIGN KEY (numero_expediente) REFERENCES expediente_local(numero_expediente) ON DELETE CASCADE
     );
 
 CREATE TABLE unidad_fiscal (
@@ -250,3 +250,5 @@ CREATE TABLE pass_master(
 
 
 INSERT INTO `pass_master` VALUES ('$2y$10$CdOK6vNq.XAEL4Sh5dvFIeL4QXHQ.XmTvQgcdcFi75.gl4IdiniDy','2022-07-08 07:17:26','2022-07-08 07:17:26');
+
+INSERT INTO `usuarios` VALUES ('0202519914','Admin','Darwin','Bayas','0996398810','tidomar@gmail.com','darwinb','$2y$10$14L2/hx9V1..IOAQyGdF.OY8X4IEFftc9EPBiM4H6fcZNbv2Mwl3G','2022-07-08 07:20:16','2022-07-08 07:20:16');

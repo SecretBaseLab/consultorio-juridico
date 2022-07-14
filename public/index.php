@@ -128,6 +128,11 @@ $map->post('post_nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
     "action" => 'post_form_nuevo_expediente_action',
     "auth" => true
 ]);
+$map->get('vget_info_expediente', $dir_raiz . 'expediente/{numero_expediente}', [
+    "controller" => 'App\Controllers\expedienteController',
+    "action" => 'get_expediente_action',
+    "auth" => true
+]);
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);
