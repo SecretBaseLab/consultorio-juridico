@@ -90,7 +90,7 @@ Nuevo Cliente |
               <td>{{ expediente.numero_expediente }}</td>
               <td>{{expediente.tipo}}</td>
               <td>{{expediente.estado}}</td>
-              <td>{{ expediente.created_at|date('Y-m-d') }}</td>
+              <td>{{ expediente.created_at|date('d-m-Y') }}</td>
               <td><a href="/expediente/{{ expediente.numero_expediente }}"><i class="fa-solid fa-eye"></i></a></td>
               <td><a href="/expediente/delete/{{ expediente.numero_expediente }}"><i class="fa-solid fa-trash-can"></i></a></td>
             </tr>

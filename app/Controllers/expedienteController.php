@@ -117,12 +117,14 @@ class expedienteController extends CoreController{
     $numero_expediente = $request->getAttribute('numero_expediente');
 
     $expediente_local = Capsule::table('expediente_local')
-    ->select('*')
+    ->select('expediente_local.*', 'cliente.cedula', 'cliente.nombres', 'cliente.apellidos')
+    ->join('cliente', 'cliente.cedula', '=', 'expediente_local.cedula')
     ->where("expediente_local.numero_expediente", "=", $numero_expediente)
     ->first();
     $notas_expediente = Capsule::table('notas_expediente')
     ->select('*')
     ->where("notas_expediente.numero_expediente", "=", $numero_expediente)
+    ->oldest('id_notas')
     ->get();
     $adjuntos_expediente = Capsule::table('adjuntos_expediente')
     ->select('*')

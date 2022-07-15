@@ -3,6 +3,10 @@ RewriteCond %{THE_REQUEST} /public/([^\s?]*) [NC]
 RewriteRule ^ %1 [L,NE,R=302]
 RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
 
+# rutas con acceso no permitido
+# RedirectMatch 403 ^/public/uploads/.*$ 
+Options -Indexes
+
 # control de memoria para los forms
 php_value max_input_vars 9999
 php_value post_max_size 1000M

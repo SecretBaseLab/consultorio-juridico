@@ -57,6 +57,13 @@ body{
   -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
   backdrop-filter: blur(var(--blur_cristal_mode));
 }
+.cristal_background_light{
+  padding: 10px;
+  border-radius: 10px;
+  background-color: var(--card_glass_color_light);
+  -webkit-backdrop-filter: blur(var(--blur_cristal_mode));
+  backdrop-filter: blur(var(--blur_cristal_mode));
+}
 /* efecto trnasparente para los input */
 input, textarea{
   margin-top: 10px;
