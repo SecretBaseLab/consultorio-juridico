@@ -142,6 +142,21 @@ class clienteController extends CoreController{
    * muestra el formulario para buscar y una lista de los ultimos clientes registrados
    */
   public function search_cliente_get_form_action(){
-    return $this->renderHTML('cliente_buscar.twig');
+    $clientes = Capsule::table('cliente')
+    ->select('cliente.cedula', 'nombres', 'apellidos', 'created_at')
+    ->latest('cliente.created_at')
+    ->limit(10)
+    ->get();
+    return $this->renderHTML('cliente_buscar.twig',[
+      'clientes' => $clientes
+    ]);
+  }
+
+  /**
+   * @Route("Route", name="RouteName")
+   */
+  public function search_cliente_post_action($request){
+    $postData = $request->getParsedBody();
+    return $this->jsonReturn($postData);
   }
 }

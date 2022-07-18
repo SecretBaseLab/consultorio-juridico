@@ -117,7 +117,7 @@ $map->get('search_Cliente_get_form', $dir_raiz . 'cliente/search', [
     "action" => 'search_cliente_get_form_action',
     "auth" => true
 ]);
-$map->post('search_Cliente_post', $dir_raiz . 'cliente/search/{cedula}', [
+$map->post('search_Cliente_post', $dir_raiz . 'cliente/search', [
     "controller" => "App\Controllers\clienteController",
     "action" => 'search_cliente_post_action',
     "auth" => true

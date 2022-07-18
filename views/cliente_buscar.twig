@@ -1,1 +1,82 @@
-hola
+{% extends "main.twig" %}
+{% block title %}
+Buscar Cliente |
+{{ parent() }}
+{% endblock %}
+{# bloque de estilos #}
+{% block styles %}
+<style>
+  .vista{
+      width: 100%;
+      margin-top: var(--altura_navbar);
+  }
+  .buscar_cliente_container{
+      color: var(--text_glass_color_dark);
+  }
+</style>
+{% endblock styles %}
+
+{# bloque del contenido de cada vista #}
+{% block contenido %}
+<div class="vista">
+  <div class="buscar_cliente_container">
+    <div class="row buscar_cliente ">
+      <div class="col-md-12 cristal_background">
+        <h2>Buscar Cliente</h2>
+        <form class="" id="buscar_cliente_form" method="POST" action="/cliente/search">
+          <input class=" me-2" name="cedula" id="cedula" type="search" placeholder="Buscar Cédula" aria-label="Search" required pattern="[0-9]">
+        </form>
+      </div>
+      <div class="col-md-12 cristal_background">
+        <section class="table-responsive">
+          <table class="table table-light table-striped table-hover table-sm">
+            <thead>
+              <tr>
+                <th scope="col">Cédula</th>
+                <th scope="col">Nombres</th>
+                <th scope="col">Apellidos</th>
+                <th scope="col">Fecha de Registro</th>
+                <th scope="col">Ver</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for row, cliente in clientes %}
+              <tr>
+                <td>{{ cliente.cedula }}</td>
+                <td>{{cliente.nombres}}</td>
+                <td>{{ cliente.apellidos}}</td>
+                <td>{{ cliente.created_at|date('d-m-Y') }}</td>
+                <td><a href="/cliente/{{ cliente.cedula }}"><i class="fa-solid fa-solid fa-eye"></i></a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>  
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock contenido %}
+
+{% block scripts %}
+<script>
+  cedula.onkeyup = ()=>{
+    if(cedula.value > 3)
+      $.ajax({
+          type: "POST",
+          url: buscar_cliente_form.action,
+          data: cedula.value,
+          success: function(res) {
+              console.log(res)
+              // res = JSON.parse(res) //? haciendo json al texto resibido desde el backend
+              
+          }
+      });
+  }
+</script>
+{% endblock scripts %}
+
+{# scripts anulados o no usados en esta vista #}
+
+{% block scriptTooltip %}
+{% endblock scriptTooltip %}
