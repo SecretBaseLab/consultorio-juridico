@@ -112,25 +112,40 @@ $map->post('poatFormNuevoCliente', $dir_raiz . 'cliente/add', [
     "action" => 'postFormNuevoClienteAction',
     "auth" => true
 ]);
-$map->get('getCliente', $dir_raiz . 'cliente/{cedula}', [
+$map->get('search_Cliente_get_form', $dir_raiz . 'cliente/search', [
+    "controller" => 'App\Controllers\clienteController',
+    "action" => 'search_cliente_get_form_action',
+    "auth" => true
+]);
+$map->post('search_Cliente_post', $dir_raiz . 'cliente/search/{cedula}', [
+    "controller" => "App\Controllers\clienteController",
+    "action" => 'search_cliente_post_action',
+    "auth" => true
+]);
+$map->get('get_info_Cliente', $dir_raiz . 'cliente/{cedula}', [
     "controller" => "App\Controllers\clienteController",
     "action" => "getClienteAction",
     "auth" => true
 ]);
 
-$map->get('get_form_nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
+$map->get('form_nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
     "controller" => 'App\Controllers\expedienteController',
     "action" => 'get_form_nuevo_expediente_action',
     "auth" => true
 ]);
-$map->post('post_nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
+$map->post('nuevo_expediente', $dir_raiz . 'expediente/add/{cedula}', [
     "controller" => 'App\Controllers\expedienteController',
     "action" => 'post_form_nuevo_expediente_action',
     "auth" => true
 ]);
-$map->get('vget_info_expediente', $dir_raiz . 'expediente/{numero_expediente}', [
+$map->get('info_expediente', $dir_raiz . 'expediente/{numero_expediente}', [
     "controller" => 'App\Controllers\expedienteController',
     "action" => 'get_expediente_action',
+    "auth" => true
+]);
+$map->post('nuevo_adjuntos_expediente', $dir_raiz . 'expediente/adjuntos_expediente/add/{numero_expediente}', [
+    "controller" => 'App\Controllers\expedienteController',
+    "action" => 'post_add_adjuntos_expediente_action',
     "auth" => true
 ]);
 

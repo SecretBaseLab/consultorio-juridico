@@ -124,11 +124,12 @@ class expedienteController extends CoreController{
     $notas_expediente = Capsule::table('notas_expediente')
     ->select('*')
     ->where("notas_expediente.numero_expediente", "=", $numero_expediente)
-    ->oldest('id_notas')
+    ->latest('id_notas')
     ->get();
     $adjuntos_expediente = Capsule::table('adjuntos_expediente')
     ->select('*')
     ->where("adjuntos_expediente.numero_expediente", "=", $numero_expediente)
+    ->latest('id_archivo')
     ->get();
     
     //? verificando si existe
@@ -141,6 +142,23 @@ class expedienteController extends CoreController{
     }else
       //? no existe
       return $this->renderHTML('404.twig');
+  }
+
+  public function post_add_adjuntos_expediente_action($request){
+    $numero_expediente = $request->getAttribute('numero_expediente');
+
+    if ($request->getMethod() == "POST") {
+      $files = $request->getUploadedFiles();    //? captura datos de archivos subidos
+        $files = $files['adjuntos_expediente'];
+        assetsControler::upload_files(
+          $files,
+          'adjuntos_expediente',
+          'numero_expediente',
+          $numero_expediente,
+          date('Y-m-d H-i-s')
+        );
+        return new RedirectResponse("/expediente/$numero_expediente");
+    }
   }
 
 }

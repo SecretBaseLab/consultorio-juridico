@@ -22,6 +22,10 @@ Expediente local |
     display: flex;
     justify-content: center;
   }
+  .descargar_container a:hover{
+    background-color: var(--button_hover);
+    color: var(--text_color_light);
+  }
 </style>
 {% endblock styles %}
 
@@ -50,7 +54,8 @@ Expediente local |
 
         <section>
           <h2>Notas del expediente</h2>
-          <a href="/expediente/nota/add/{{expediente_local.numero_expediente}}" class="btn btn-danger form-control">Nueva Nota</a>
+          <button type="button" data-bs-toggle="modal" data-bs-target="#nuevaNotaExpediente" class="btn btn-danger form-control">Nueva Nota</button>
+
           {% for row, nota in notas_expediente %}
             <label for="{{nota.id_notas}}" class="float-end mt-2">Creado el: {{nota.created_at|date('d-m-Y')}}</label>
             <textarea name="" id="{{nota.id_notas}}" rows="3" readonly class="form-control">{{nota.descripcion}}</textarea>
@@ -60,40 +65,95 @@ Expediente local |
       <div class="col-md-6 cristal_background">
         <section class="row">
           <h2>Adjuntos del expediente</h2>
-          <a href="/expediente/add/{{expediente_local.cedula}}" class="btn btn-danger form-control">Nuevo Expediente</a>
+          <!-- Button trigger modal -->
+          <button type="button" data-bs-toggle="modal" data-bs-target="#nuevoAdjuntoExpediente" class="btn btn-danger form-control">Nuevo Adjunto</button>
         </section>
         <section class="row">
-          <div class="row row-cols-1 row-cols-md-3 g-4">
-            {% for row, adjunto in adjuntos_expediente %}
-            <div class="col">
-              <div class="card cristal_background">
-                <div class="card-body">
-                  <h6 class="card-title">{{adjunto.file_name}}</h6>
-                  <div class="descargar_container">                  
-                    <a href="/uploads/adjuntos_expediente/{{adjunto.file_name_hash}}" download="{{adjunto.file_name}}" class="p-2 cristal_background_light"><i class="fa-solid fa-download"></i></a>
-                  </div>
-                </div>
-                <div class="card-footer">
-                  <small class="text-muted">Creado el: {{adjunto.created_at|date('d-m-Y')}}</small>
+          {% for row, adjunto in adjuntos_expediente %}
+          <div class="col-lg-4 w-50">
+            <div class="card cristal_background">
+              <div class="card-body">
+                <h6 class="card-title">{{adjunto.file_name}}</h6>
+                <div class="descargar_container">                  
+                  <a href="/uploads/adjuntos_expediente/{{adjunto.file_name_hash}}" download="{{adjunto.file_name}}" class="p-2 cristal_background_light"><i class="fa-solid fa-download"></i></a>
                 </div>
               </div>
+              <div class="card-footer">
+                <small class="text-muted">Creado el: {{adjunto.created_at|date('d-m-Y')}}</small>
+              </div>
             </div>
-            {% endfor %}
           </div>
+          {% endfor %}
         </section>
       </div>
     </div>
   </div>
 </div>
+<!-- Modal -->
+<div class="modal fade" id="nuevoAdjuntoExpediente" tabindex="-1" aria-labelledby="nuevoAdjuntoExpedienteLabel" aria-hidden="true">
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nuevoAdjuntoExpedienteLabel">Adjuntar Archivos al Expediente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="nuevoAdjuntosExpediente_form" enctype="multipart/form-data" method='POST' action="/expediente/adjuntos_expediente/add/{{expediente_local.numero_expediente}}">
+          <input type="file" class="form-control" name="adjuntos_expediente[]" id="adjuntos_expediente" placeholder="Adjuntar Archivos" required multiple>
+          <button type="submit" class="btn btn-primary form-control">Guardar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END modal -->
+
+<!-- Modal -->
+<div class="modal fade" id="nuevaNotaExpediente" tabindex="-1" aria-labelledby="nuevaNotaExpedienteLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="nuevaNotaExpedienteLabel">Nueva Nota del Expediente</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form id="nuevaNotaExpediente_form" enctype="multipart/form-data" method='POST' action="/expediente/notas_expediente/add/{{expediente_local.numero_expediente}}">
+          <div id="notas_container" >
+              <textarea name="notas_expediente[]" rows="4" placeholder="Descripción de la nota" required class="form-control"></textarea>
+          </div>
+          <input type="button" value="Nueva Nota" class="btn btn-outline-info" id="btnNuevaNota">
+          <button type="submit" class="btn btn-primary form-control">Guardar</button>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- END modal -->
 {% endblock contenido %}
 
+{% block scripts %}
+<script>
+  btnNuevaNota.onclick = ()=>{
+    const textarea = document.createElement("textarea");
+    textarea.placeholder="Nueva Nota"
+    textarea.classList.add(['form-control'])
+    textarea.name="notas_expediente['']"
+    textarea.rows = 4
+    textarea.setAttribute('required', true)
+    notas_container.appendChild(textarea)
+  }
+</script>
+{% endblock scripts %}
 
 {# scripts anulados o no usados en esta vista #}
 {% block jquery %}
 {% endblock jquery %}
-
-{% block scripts %}
-{% endblock scripts %}
 
 {% block scriptTooltip %}
 {% endblock scriptTooltip %}

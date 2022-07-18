@@ -9,10 +9,15 @@ use Respect\Validation\Validator as v;
 use Illuminate\Database\Capsule\Manager as Capsule;      //? conexion con la base de datos usando Query Builder
 
 class clienteController extends CoreController{
+  /**
+   * muestra el formulario para registrar un nuevo cliente
+   */
   public function getFormNuevoClienteAction(){
     return $this->renderHTML('nuevoCliente.twig');
   }
-
+  /**
+   * guarda un cliente
+   */
   public function postFormNuevoClienteAction($request){
     $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
 
@@ -102,7 +107,9 @@ class clienteController extends CoreController{
     }
     return $this->jsonReturn(json_encode($respuesta));
   }
-
+  /**
+   * muestra la info del cliente y sus expedientes
+   */
   public function getClienteAction($request){
     $cedula = $request->getAttribute('cedula');
 
@@ -119,7 +126,7 @@ class clienteController extends CoreController{
       $expediente_local = Capsule::table('expediente_local')
       ->select('numero_expediente', 'tipo','estado','created_at')
       ->where("expediente_local.cedula", "=", $cedula)
-      ->latest()
+      ->latest('numero_expediente')
       ->get();
       return $this->renderHTML('cliente.twig',[
         'cliente' => $cliente[0],    //? devuelve un obj de arrays, solo quiero el primero o bien usar first() por get()
@@ -130,5 +137,11 @@ class clienteController extends CoreController{
     }else
       // el cliente no existe
       return $this->renderHTML('404.twig');
+  }
+  /**
+   * muestra el formulario para buscar y una lista de los ultimos clientes registrados
+   */
+  public function search_cliente_get_form_action(){
+    return $this->renderHTML('cliente_buscar.twig');
   }
 }

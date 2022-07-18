@@ -29,7 +29,7 @@ class assetsControler{
                     <button id="btn_close_alert" type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>';
     }
-
+    
     /**
     * subir archivos
     * @param array $files Array de archivos
