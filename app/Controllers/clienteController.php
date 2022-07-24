@@ -156,7 +156,20 @@ class clienteController extends CoreController{
    * @Route("Route", name="RouteName")
    */
   public function search_cliente_post_action($request){
-    $postData = $request->getParsedBody();
-    return $this->jsonReturn($postData);
+    $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
+
+    if ($request->getMethod() == "POST") {
+      $postData = $request->getParsedBody();
+      $cedula = $postData['cedula'];
+      Capsule::statement("SET lc_time_names = 'es_EC'");
+      $clientes = Capsule::table('cliente')
+      ->select('cedula', 'nombres', 'apellidos', Capsule::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as created_at'))
+      ->where('cedula', 'like', "$cedula%")
+      ->latest('created_at')
+      ->limit(10)
+      ->get();
+      return $this->jsonReturn($clientes);
+    
+    }
   }
 }

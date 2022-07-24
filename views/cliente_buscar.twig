@@ -39,7 +39,7 @@ Buscar Cliente |
                 <th scope="col">Ver</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody id="clientes_lista">
               {% for row, cliente in clientes %}
               <tr>
                 <td>{{ cliente.cedula }}</td>
@@ -60,16 +60,34 @@ Buscar Cliente |
 
 {% block scripts %}
 <script>
+  // lanza un evento cada vez q ingresa un numero de cedula
   cedula.onkeyup = ()=>{
-    if(cedula.value > 3)
+    if(cedula.value.length > 3)
       $.ajax({
           type: "POST",
           url: buscar_cliente_form.action,
-          data: cedula.value,
+          data: {
+            'cedula' : cedula.value
+          },
           success: function(res) {
-              console.log(res)
-              // res = JSON.parse(res) //? haciendo json al texto resibido desde el backend
+              // console.log(res)
+              let listaHTML = "";
+              res.forEach(cliente => {
+                listaHTML = listaHTML +`
+                  <tr>
+                    <td>${ cliente.cedula }</td>
+                    <td>${cliente.nombres }</td>
+                    <td>${ cliente.apellidos }</td>
+                    <td>${ cliente.created_at }</td>
+                    <td><a href="/cliente/${ cliente.cedula }"><i class="fa-solid fa-solid fa-eye"></i></a></td>
+                  </tr>`;
               
+              });
+              if(listaHTML != "")
+                clientes_lista.innerHTML = listaHTML;
+              else
+                clientes_lista.innerHTML = "<tr><td colspan='5'>No se ha encontrado!</td></tr>";
+              // res = JSON.parse(res) //? haciendo json al texto resibido desde el backend              
           }
       });
   }

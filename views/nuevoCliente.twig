@@ -118,7 +118,7 @@ Nuevo Cliente |
             url: url,
             data: $(nuevoCliente_form).serialize(),
             success: function(res) {
-                console.log(res)
+                //console.log(res)
                 res = JSON.parse(res) //? haciendo json al texto resibido desde el backend
                 alert_container.innerHTML = res.responseMessage
                 if(res.redirect_path != "")
