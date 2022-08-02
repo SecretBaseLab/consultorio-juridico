@@ -148,6 +148,12 @@ $map->post('nuevo_adjuntos_expediente', $dir_raiz . 'expediente/adjuntos_expedie
     "action" => 'post_add_adjuntos_expediente_action',
     "auth" => true
 ]);
+$map->put('put_estado_expediente', $dir_raiz . 'expediente/estado_expediente/put/{numero_expediente}', [
+    "controller" => 'App\Controllers\expedienteController',
+    "action" => 'put_estado_expediente_action',
+    "auth" => true
+]);
+
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);

@@ -44,7 +44,13 @@ Expediente local |
             <li class="list-group-item"><b>Número Expediente: </b>{{expediente_local.numero_expediente}}</li>
             <li class="list-group-item"><b>Tipo:</b> {{expediente_local.tipo}}</li>
             <li class="list-group-item"><b>Fecha de inicio:</b> {{expediente_local.created_at|date('d-m-Y')}}</li>
-            <li class="list-group-item"><b>Estado:</b> {{expediente_local.estado}}</li>
+            <li class="list-group-item"><b>Estado:</b> 
+              <select id="estado_expediente">
+                <option value="Abandonado" {% if expediente_local.estado == 'Abandonado' %} selected {% endif %}>Abandonado</option>
+                <option value="En curso" {% if expediente_local.estado == 'En curso' %} selected {% endif %}>En curso</option>
+                <option value="Finalizado" {% if expediente_local.estado == 'Finalizado' %} selected {% endif %}>Finalizado</option>
+              </select>
+            </li>
           </ul>
           <h2>Más información</h2>
           <textarea name="" id="" rows="3" readonly class="form-control">{{expediente_local.otros}}</textarea>
@@ -148,12 +154,23 @@ Expediente local |
     textarea.setAttribute('required', true)
     notas_container.appendChild(textarea)
   }
+
+  estado_expediente.onchange = ()=>{
+    $.ajax({
+      type: "put",
+      url: "/expediente/estado_expediente/put/{{expediente_local.numero_expediente}}",
+      data: {
+        'estado_expediente' : estado_expediente.value
+      },
+      success: function (res) {
+        console.log(res)
+      }
+    });
+  }
 </script>
 {% endblock scripts %}
 
 {# scripts anulados o no usados en esta vista #}
-{% block jquery %}
-{% endblock jquery %}
 
 {% block scriptTooltip %}
 {% endblock scriptTooltip %}

@@ -144,6 +144,9 @@ class expedienteController extends CoreController{
       return $this->renderHTML('404.twig');
   }
 
+  /**
+   * subir los archivos adjuntos_expediente
+   */
   public function post_add_adjuntos_expediente_action($request){
     $numero_expediente = $request->getAttribute('numero_expediente');
 
@@ -161,4 +164,13 @@ class expedienteController extends CoreController{
     }
   }
 
+  /**
+   * 
+   */
+  public function put_estado_expediente_action($request){
+    $data = $request->getParsedBody();
+    $estado_expediente = $request->getAttribute('estado_expediente');
+    $aux = parse_str(file_get_contents("php://input"),$put_vars);
+    return $this->jsonReturn($put_vars);    
+  }
 }

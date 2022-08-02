@@ -7,6 +7,7 @@ use App\Models\telefono_cliente;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
 use Illuminate\Database\Capsule\Manager as Capsule;      //? conexion con la base de datos usando Query Builder
+use Laminas\Diactoros\ServerRequest;
 
 class clienteController extends CoreController{
   /**
@@ -18,7 +19,7 @@ class clienteController extends CoreController{
   /**
    * guarda un cliente
    */
-  public function postFormNuevoClienteAction($request){
+  public function postFormNuevoClienteAction(ServerRequest $request){
     $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
 
     if ($request->getMethod() == "POST") {
@@ -110,7 +111,7 @@ class clienteController extends CoreController{
   /**
    * muestra la info del cliente y sus expedientes
    */
-  public function getClienteAction($request){
+  public function getClienteAction(ServerRequest $request){
     $cedula = $request->getAttribute('cedula');
 
     $cliente = cliente::where("cedula", $cedula)
@@ -153,15 +154,15 @@ class clienteController extends CoreController{
   }
 
   /**
-   * @Route("Route", name="RouteName")
+   * busca clientes por el numero de cedula
    */
-  public function search_cliente_post_action($request){
+  public function search_cliente_post_action(ServerRequest $request){
     $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
 
     if ($request->getMethod() == "POST") {
       $postData = $request->getParsedBody();
       $cedula = $postData['cedula'];
-      Capsule::statement("SET lc_time_names = 'es_EC'");
+      // Capsule::statement("SET lc_time_names = 'es_EC'");
       $clientes = Capsule::table('cliente')
       ->select('cedula', 'nombres', 'apellidos', Capsule::raw('DATE_FORMAT(created_at, "%d-%m-%Y") as created_at'))
       ->where('cedula', 'like', "$cedula%")
