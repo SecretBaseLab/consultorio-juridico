@@ -34,7 +34,7 @@ create table expediente_local (
     created_at DATETIME COMMENT "fecha_inicio_expediente",
     updated_at DATETIME COMMENT "fecha de cambio de estado del expediente",
     otros varchar (100),
-    estado varchar (50) default "En curso" CHECK (estado="Finalizado" or estado="En curso" or estado="Abandonado"),
+    estado_expediente varchar (50) default "En curso" CHECK (estado="Finalizado" or estado="En curso" or estado="Abandonado"),
     cedula varchar (10) not null,
     FOREIGN KEY (cedula) references cliente(cedula) ON DELETE CASCADE
 );

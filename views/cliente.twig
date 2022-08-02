@@ -75,7 +75,7 @@ Nuevo Cliente |
           <table class="table table-light table-striped table-hover table-sm">
             <thead>
               <tr>
-                <th scope="col">Numero Expediente</th>
+                <th scope="col"># Expediente</th>
                 <th scope="col">Tipo</th>
                 <th scope="col">Estado</th>
                 <th scope="col">Fecha Inicio</th>
@@ -88,7 +88,7 @@ Nuevo Cliente |
               <tr>
                 <td>{{ expediente.numero_expediente }}</td>
                 <td>{{expediente.tipo}}</td>
-                <td>{{expediente.estado}}</td>
+                <td>{{expediente.estado_expediente}}</td>
                 <td>{{ expediente.created_at|date('d-m-Y') }}</td>
                 <td><a href="/expediente/{{ expediente.numero_expediente }}"><i class="fa-solid fa-eye"></i></a></td>
                 <td><a href="/expediente/delete/{{ expediente.numero_expediente }}"><i class="fa-solid fa-trash-can"></i></a></td>

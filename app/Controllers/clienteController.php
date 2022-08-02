@@ -125,7 +125,7 @@ class clienteController extends CoreController{
       $correo_cliente = correo_cliente::where("cedula", $cedula)
                               ->get();
       $expediente_local = Capsule::table('expediente_local')
-      ->select('numero_expediente', 'tipo','estado','created_at')
+      ->select('numero_expediente', 'tipo','estado_expediente','created_at')
       ->where("expediente_local.cedula", "=", $cedula)
       ->latest('numero_expediente')
       ->get();

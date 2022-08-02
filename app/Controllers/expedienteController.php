@@ -6,12 +6,11 @@ use Laminas\Diactoros\Response\JsonResponse;
 use Laminas\Diactoros\Response\RedirectResponse;
 use Respect\Validation\Validator as v;
 use Illuminate\Database\Capsule\Manager as Capsule;      //? conexion con la base de datos usando Query Builder
-
-
+use Laminas\Diactoros\ServerRequest;
 
 class expedienteController extends CoreController{
 
-  public function get_form_nuevo_expediente_action($request){
+  public function get_form_nuevo_expediente_action(ServerRequest $request){
     $cedula = $request->getAttribute('cedula');
 
     $cliente = cliente::where("cedula", $cedula)
@@ -26,7 +25,7 @@ class expedienteController extends CoreController{
       return $this->renderHTML('404.twig');
   }
 
-  public function post_form_nuevo_expediente_action($request){
+  public function post_form_nuevo_expediente_action(ServerRequest $request){
     $responseMessage = null;    //var para recuperar los mesajes q suceda durante la ejecucion
     $cedula = $request->getAttribute('cedula');
 
@@ -113,7 +112,7 @@ class expedienteController extends CoreController{
     }
   }
 
-  public function get_expediente_action($request){
+  public function get_expediente_action(ServerRequest $request){
     $numero_expediente = $request->getAttribute('numero_expediente');
 
     $expediente_local = Capsule::table('expediente_local')
@@ -147,7 +146,7 @@ class expedienteController extends CoreController{
   /**
    * subir los archivos adjuntos_expediente
    */
-  public function post_add_adjuntos_expediente_action($request){
+  public function post_add_adjuntos_expediente_action(ServerRequest $request){
     $numero_expediente = $request->getAttribute('numero_expediente');
 
     if ($request->getMethod() == "POST") {
@@ -167,10 +166,26 @@ class expedienteController extends CoreController{
   /**
    * 
    */
-  public function put_estado_expediente_action($request){
+  public function put_estado_expediente_action(ServerRequest $request){
+    $responseMessage = null;
+
     $data = $request->getParsedBody();
-    $estado_expediente = $request->getAttribute('estado_expediente');
-    $aux = parse_str(file_get_contents("php://input"),$put_vars);
-    return $this->jsonReturn($put_vars);    
+    $numero_expediente = $request->getAttribute('numero_expediente');
+    parse_str(file_get_contents("php://input"),$put_vars);    //? accedemos a la memoria de php para leer los datos mediante el metodo put
+    $update = Capsule::table('expediente_local')
+    ->where("numero_expediente", "=", $numero_expediente)
+    ->update([
+      "estado_expediente" => $put_vars['estado_expediente'],
+      "updated_at" => Capsule::raw("NOW()")
+    ]);
+    if( $update == 1 )
+      $responseMessage = "Se ha actualizado!";
+    else
+      $responseMessage = "Ha habido un error!";
+
+    $respuesta = array(
+      "alert" => assetsControler::alertAjax($responseMessage, 'info')
+    );
+    return $this->jsonReturn($respuesta);
   }
 }

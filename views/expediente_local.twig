@@ -46,10 +46,11 @@ Expediente local |
             <li class="list-group-item"><b>Fecha de inicio:</b> {{expediente_local.created_at|date('d-m-Y')}}</li>
             <li class="list-group-item"><b>Estado:</b> 
               <select id="estado_expediente">
-                <option value="Abandonado" {% if expediente_local.estado == 'Abandonado' %} selected {% endif %}>Abandonado</option>
-                <option value="En curso" {% if expediente_local.estado == 'En curso' %} selected {% endif %}>En curso</option>
-                <option value="Finalizado" {% if expediente_local.estado == 'Finalizado' %} selected {% endif %}>Finalizado</option>
+                <option value="Abandonado" {% if expediente_local.estado_expediente == 'Abandonado' %} selected {% endif %}>Abandonado</option>
+                <option value="En curso" {% if expediente_local.estado_expediente == 'En curso' %} selected {% endif %}>En curso</option>
+                <option value="Finalizado" {% if expediente_local.estado_expediente == 'Finalizado' %} selected {% endif %}>Finalizado</option>
               </select>
+              <span id="estado_expediente_loader"></span>
             </li>
           </ul>
           <h2>Más información</h2>
@@ -141,6 +142,8 @@ Expediente local |
   </div>
 </div>
 <!-- END modal -->
+
+<div id="alert_container"></div>
 {% endblock contenido %}
 
 {% block scripts %}
@@ -155,15 +158,33 @@ Expediente local |
     notas_container.appendChild(textarea)
   }
 
+  //actualiza el estado_expediente
   estado_expediente.onchange = ()=>{
     $.ajax({
       type: "put",
-      url: "/expediente/estado_expediente/put/{{expediente_local.numero_expediente}}",
+      url: "/expediente/estado_expediente/update/{{expediente_local.numero_expediente}}",
       data: {
         'estado_expediente' : estado_expediente.value
       },
+      beforeSend: function(){
+        estado_expediente_loader.innerHTML =
+        `<div class="spinner-border spinner-border-sm text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>`
+        estado_expediente.disabled = true;
+        alert_container.innerHTML = ""
+      },
       success: function (res) {
-        console.log(res)
+        let {alert} = res
+        alert_container.innerHTML = alert
+        setTimeout(() => {
+          const alert = bootstrap.Alert.getOrCreateInstance('.alert')
+          alert.close()
+        }, 2000)   //? cerrar el alert
+      },
+      complete: function (){
+        estado_expediente_loader.innerHTML = ""
+        estado_expediente.disabled = false;
       }
     });
   }

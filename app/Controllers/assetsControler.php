@@ -5,6 +5,9 @@ use Respect\Validation\Validator as v;
 use Illuminate\Database\Capsule\Manager as Capsule;      //? conexion con la base de datos usando Query Builder
 
 class assetsControler{
+    /**
+     * alert para usar sin ajaz, tiene timeout incluido
+     */
     public static function alert($message, $typeAlert='info', $icon=''){
         if($message==NULL) return '';
         
@@ -18,6 +21,9 @@ class assetsControler{
                 <script> window.onload = ()=>{ setTimeout(() => {btn_close_alert.click()}, 2600); }</script>';
     }
 
+    /**
+     * alert para usar con ajaz, no tiene timeout incluido
+     */
     public static function alertAjax($message, $typeAlert='info', $icon=''){
         if($message==NULL) return '';
         
