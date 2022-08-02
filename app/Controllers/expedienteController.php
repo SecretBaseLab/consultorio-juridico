@@ -164,12 +164,11 @@ class expedienteController extends CoreController{
   }
 
   /**
-   * 
+   * actualiza el estado_expediente
    */
   public function put_estado_expediente_action(ServerRequest $request){
     $responseMessage = null;
 
-    $data = $request->getParsedBody();
     $numero_expediente = $request->getAttribute('numero_expediente');
     parse_str(file_get_contents("php://input"),$put_vars);    //? accedemos a la memoria de php para leer los datos mediante el metodo put
     $update = Capsule::table('expediente_local')
@@ -187,5 +186,30 @@ class expedienteController extends CoreController{
       "alert" => assetsControler::alertAjax($responseMessage, 'info')
     );
     return $this->jsonReturn($respuesta);
+  }
+
+  public function post_add_notas_expediente_action(serverRequest $request){
+    $responseMessage = null;
+
+    if ($request->getMethod() == "POST") {
+      $numero_expediente = $request->getAttribute('numero_expediente');
+      $postData = $request->getParsedBody();
+      $notas_expediente = $postData['notas_expediente'];
+
+      try {
+        v::each(v::stringType()->notEmpty())->validate($notas_expediente);  //? validando un array
+        $this->notas_expediente_insert(
+          $notas_expediente,
+          Capsule::raw("NOW()"),
+          $numero_expediente,
+          $responseMessage
+        );      
+      } catch (\Exception $e) {
+        $responseMessage = 'Ha ocurrido un error! ex001';
+        // $responseMessage = $e->getMessage();
+      }
+      return new RedirectResponse("/expediente/$numero_expediente");
+
+    }
   }
 }

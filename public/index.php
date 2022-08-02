@@ -154,7 +154,11 @@ $map->put('put_estado_expediente', $dir_raiz . 'expediente/estado_expediente/upd
     "action" => 'put_estado_expediente_action',
     "auth" => true
 ]);
-
+$map->post('nueva_notas_expediente', $dir_raiz . 'expediente/notas_expediente/add/{numero_expediente}', [
+    "controller" => 'App\Controllers\expedienteController',
+    "action" => 'post_add_notas_expediente_action',
+    "auth" => true
+]);
 
 $matcher = $routerContainer->getMatcher();
 $route = $matcher->match($request);

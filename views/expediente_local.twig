@@ -127,7 +127,7 @@ Expediente local |
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form id="nuevaNotaExpediente_form" enctype="multipart/form-data" method='POST' action="/expediente/notas_expediente/add/{{expediente_local.numero_expediente}}">
+        <form id="nuevaNotaExpediente_form" method='POST' action="/expediente/notas_expediente/add/{{expediente_local.numero_expediente}}">
           <div id="notas_container" >
               <textarea name="notas_expediente[]" rows="4" placeholder="Descripción de la nota" required class="form-control"></textarea>
           </div>
@@ -152,7 +152,7 @@ Expediente local |
     const textarea = document.createElement("textarea");
     textarea.placeholder="Nueva Nota"
     textarea.classList.add(['form-control'])
-    textarea.name="notas_expediente['']"
+    textarea.name="notas_expediente[]"
     textarea.rows = 4
     textarea.setAttribute('required', true)
     notas_container.appendChild(textarea)
