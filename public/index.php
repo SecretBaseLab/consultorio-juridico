@@ -34,6 +34,7 @@ $capsule->addConnection([
 $capsule->setAsGlobal();
 // Setup the Eloquent ORM... (optional; unless you've used setEventDispatcher())
 $capsule->bootEloquent();
+Capsule::statement("SET lc_time_names = 'es_EC'"); //? para establecer la zona horaria de la base de datos
 
 //? manejador del request/peticiones
 $request = Laminas\Diactoros\ServerRequestFactory::fromGlobals(
